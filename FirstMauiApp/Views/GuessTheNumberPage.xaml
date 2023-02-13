@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:FirstMauiApp.ViewModels"
+             x:Class="FirstMauiApp.Views.GuessTheNumberPage"
+             Title="Game: Guess The Number"
+             NavigationPage.HasBackButton="False">
+    <ContentPage.BindingContext>
+        <viewModels:GuessTheNumberViewModel/> 
+    </ContentPage.BindingContext>
+    <ScrollView>
+        <VerticalStackLayout Margin="20" Spacing="20">
+        
+            <Label 
+                Text="{Binding GameInfoLabel}"
+                FontSize="20"
+                VerticalOptions="Center" 
+                HorizontalTextAlignment="Center"
+                HorizontalOptions="Center" />
+
+            <Entry 
+                Placeholder="Ingrese Número"
+                Keyboard="Numeric"
+                FontSize="30"
+                Text="{Binding NumberInput}"
+                HorizontalOptions="Fill"
+                IsEnabled="{Binding GameStatus}"/>
+
+            <Button
+                Text="Adivinar"
+                FontSize="30"
+                HorizontalOptions="Fill"
+                Command="{Binding ValidateNumberCommand}"
+                IsEnabled="{Binding GameStatus}"/>
+
+            <Label 
+                Text="{Binding StateInfoLabel}"
+                FontSize="25"
+                VerticalOptions="Center" 
+                HorizontalTextAlignment="Center"
+                HorizontalOptions="Center" />
+
+            <Label 
+                Text="{Binding AttemptsLabel}"
+                FontSize="20"
+                VerticalOptions="Center" 
+                HorizontalTextAlignment="Center"
+                HorizontalOptions="Center" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
