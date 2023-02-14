@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using FirstMauiApp.Views;
 using Microsoft.Maui.ApplicationModel;
 using System.Windows.Input;
 using static System.Net.Mime.MediaTypeNames;
@@ -28,7 +29,11 @@ internal class GuessTheNumberViewModel : ObservableObject
 
     public string StateInfoLabel { get; set; } = "";
     public string AttemptsLabel { get; set; } = "";
+    public string ErrorLabel { get; set; }
     public bool GameStatus { get; set; }
+    public bool IsGameCompleted { get; set; }
+    public bool IsAdivinarBtnEnabled { get; set; }
+    public bool IsErrorLabelVisible { get; set; }
     public int NumberToBeGuessed { get; set; }
     public int? NumberInput { get;set; }
 
@@ -48,20 +53,31 @@ internal class GuessTheNumberViewModel : ObservableObject
         RemainingChances = MaxChances;
         GameInfoLabel = "";
         GameStatus = true;
+        IsAdivinarBtnEnabled = false;
+        IsGameCompleted = false;
+        IsErrorLabelVisible = false;
+        ErrorLabel = $"Por favor, ingrese un número entre {MinGuess} y {MaxGuess}";
         ValidateNumberCommand = new RelayCommand(ValidateNumber);
     }
 
     public void ValidateNumber()
     {
-        if (NumberInput == null) // Por favor, ingrese un número (en rojo quizas)
+        IsErrorLabelVisible = false;
+        OnPropertyChanged(nameof(IsErrorLabelVisible));
+        if (NumberInput > MaxGuess || NumberInput < MinGuess) // Por favor, ingrese número entre 0 y 30 xd 
+        {
+            IsErrorLabelVisible = true;
+            OnPropertyChanged(nameof(IsErrorLabelVisible));
             return;
-
+        }
         if (NumberInput == NumberToBeGuessed)
         {
             StateInfoLabel = $"¡Felicidades! Has adivinado el número con {RemainingChances} " +
-                (RemainingChances == 1 ? "intento restante." : "intentos restantes.") +
-                $"\nGracias por jugar.";
+                (RemainingChances == 1 ? "intento restante." : "intentos restantes.");
             GameStatus = false;
+            IsAdivinarBtnEnabled = false;
+            NumberInput = null;
+            IsGameCompleted = true;
             RefreshProperties();
             return;
         }
@@ -79,12 +95,14 @@ internal class GuessTheNumberViewModel : ObservableObject
         RemainingChances -= 1;
 
         NumberInput = null;
+        IsAdivinarBtnEnabled = false;
         GameInfoLabel = "";
         
         if (RemainingChances <= 0)
         {
-            StateInfoLabel = $"Número equivocado.\nSe han acabado los intentos. El número era {NumberToBeGuessed}..\nGracias por jugar.";
+            StateInfoLabel = $"Número equivocado.\nSe han acabado los intentos. El número era {NumberToBeGuessed}..";
             GameStatus = false;
+            IsGameCompleted = true;
         }
 
         RefreshProperties();
@@ -95,10 +113,12 @@ internal class GuessTheNumberViewModel : ObservableObject
 
         OnPropertyChanged(nameof(RemainingChances));
         OnPropertyChanged(nameof(GameInfoLabel));
+        OnPropertyChanged(nameof(GameStatus));
         OnPropertyChanged(nameof(NumberInput));
         OnPropertyChanged(nameof(StateInfoLabel));
         OnPropertyChanged(nameof(AttemptsLabel));
-        OnPropertyChanged(nameof(GameStatus));
+        OnPropertyChanged(nameof(IsGameCompleted));
+        OnPropertyChanged(nameof(IsAdivinarBtnEnabled));
     }
 
 }

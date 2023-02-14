@@ -19,33 +19,54 @@
                 HorizontalOptions="Center" />
 
             <Entry 
+                x:Name="NumberEntry"
                 Placeholder="Ingrese Número"
                 Keyboard="Numeric"
                 FontSize="30"
                 Text="{Binding NumberInput}"
                 HorizontalOptions="Fill"
-                IsEnabled="{Binding GameStatus}"/>
+                IsEnabled="{Binding GameStatus}"
+                TextChanged="NumberInputChanged"/>
+
+            <Label 
+                Text="{Binding ErrorLabel}"
+                FontSize="15"
+                TextColor="Red"
+                IsVisible="{Binding IsErrorLabelVisible}"/>
 
             <Button
+                x:Name="AdivinarBtn"
                 Text="Adivinar"
                 FontSize="30"
                 HorizontalOptions="Fill"
-                Command="{Binding ValidateNumberCommand}"
-                IsEnabled="{Binding GameStatus}"/>
+                IsEnabled="False"
+                Command="{Binding ValidateNumberCommand}"/>
 
             <Label 
                 Text="{Binding StateInfoLabel}"
-                FontSize="25"
+                FontSize="23"
                 VerticalOptions="Center" 
                 HorizontalTextAlignment="Center"
                 HorizontalOptions="Center" />
+
+            <Button
+                Text="Volver a Jugar"
+                ImageSource="refresh_arrow.png"
+                ContentLayout="Left,10"
+                FontSize="20"
+                HorizontalOptions="Center"
+                Clicked="ReiniciarBtnClicked"
+                FontAttributes="Bold"
+                IsVisible="{Binding IsGameCompleted}"/>
 
             <Label 
                 Text="{Binding AttemptsLabel}"
                 FontSize="20"
                 VerticalOptions="Center" 
                 HorizontalTextAlignment="Center"
-                HorizontalOptions="Center" />
+                HorizontalOptions="Center" 
+                IsVisible="{Binding GameStatus}"/>
+           
 
         </VerticalStackLayout>
     </ScrollView>
