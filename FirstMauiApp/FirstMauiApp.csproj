@@ -12,7 +12,7 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 
 		<!-- Display name -->
-		<ApplicationTitle>FirstMauiApp</ApplicationTitle>
+		<ApplicationTitle>Kei's App</ApplicationTitle>
 
 		<!-- App Identifier -->
 		<ApplicationId>com.companyname.firstmauiapp</ApplicationId>

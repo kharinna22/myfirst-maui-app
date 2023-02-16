@@ -23,27 +23,36 @@
                 Placeholder="Ingrese Número"
                 Keyboard="Numeric"
                 FontSize="30"
+                IsEnabled="{Binding GameStatus}"
                 Text="{Binding NumberInput}"
                 HorizontalOptions="Fill"
-                IsEnabled="{Binding GameStatus}"
-                TextChanged="NumberInputChanged"/>
+                TextChanged="NumberInputChanged"
+                ReturnCommand="{Binding ValidateNumberCommand}"/>
 
-            <Label 
-                Text="{Binding ErrorLabel}"
-                FontSize="15"
-                TextColor="Red"
-                IsVisible="{Binding IsErrorLabelVisible}"/>
-
+            <Border
+                StrokeShape="RoundRectangle 0,40,40,40"
+                IsVisible="{Binding IsErrorLabelVisible}">
+                <Label 
+                    Text="{Binding ErrorLabel}"
+                    FontSize="15"
+                    TextColor="White"
+                    BackgroundColor="Red"
+                    FontAttributes="Bold"
+                    Padding="35,5,0,5"
+                    IsVisible="{Binding IsErrorLabelVisible}"/>
+            </Border>
             <Button
                 x:Name="AdivinarBtn"
                 Text="Adivinar"
                 FontSize="30"
+                FontAttributes="Bold"
                 HorizontalOptions="Fill"
                 IsEnabled="False"
                 Command="{Binding ValidateNumberCommand}"/>
 
             <Label 
                 Text="{Binding StateInfoLabel}"
+                TextType="Html"
                 FontSize="23"
                 VerticalOptions="Center" 
                 HorizontalTextAlignment="Center"
@@ -51,7 +60,7 @@
 
             <Button
                 Text="Volver a Jugar"
-                ImageSource="refresh_arrow.png"
+                ImageSource="{AppThemeBinding Light=refresh_arrow.png, Dark=refresh_arrow_dark.png}"
                 ContentLayout="Left,10"
                 FontSize="20"
                 HorizontalOptions="Center"

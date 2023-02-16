@@ -32,14 +32,13 @@ internal class GuessTheNumberViewModel : ObservableObject
     public string ErrorLabel { get; set; }
     public bool GameStatus { get; set; }
     public bool IsGameCompleted { get; set; }
-    public bool IsAdivinarBtnEnabled { get; set; }
     public bool IsErrorLabelVisible { get; set; }
     public int NumberToBeGuessed { get; set; }
     public int? NumberInput { get;set; }
 
     private List<string> Temperatures = new ()
         {
-            "ARDIENDO EN LLAMAS",
+            "¡¡ARDIENDO EN LLAMAS!!",
             "TIBIO",
             "NI FRIO NI CALIENTE",
             "FRIO",
@@ -53,7 +52,6 @@ internal class GuessTheNumberViewModel : ObservableObject
         RemainingChances = MaxChances;
         GameInfoLabel = "";
         GameStatus = true;
-        IsAdivinarBtnEnabled = false;
         IsGameCompleted = false;
         IsErrorLabelVisible = false;
         ErrorLabel = $"Por favor, ingrese un número entre {MinGuess} y {MaxGuess}";
@@ -72,10 +70,9 @@ internal class GuessTheNumberViewModel : ObservableObject
         }
         if (NumberInput == NumberToBeGuessed)
         {
-            StateInfoLabel = $"¡Felicidades! Has adivinado el número con {RemainingChances} " +
+            StateInfoLabel = $"<strong>¡Felicidades!</strong> Has adivinado el número con {RemainingChances} " +
                 (RemainingChances == 1 ? "intento restante." : "intentos restantes.");
             GameStatus = false;
-            IsAdivinarBtnEnabled = false;
             NumberInput = null;
             IsGameCompleted = true;
             RefreshProperties();
@@ -88,19 +85,18 @@ internal class GuessTheNumberViewModel : ObservableObject
         int porcentaje = ((distance * 5) / maxDistance);
         porcentaje = porcentaje > 4 ? 4 : porcentaje;
 
-        StateInfoLabel = $"Número equivocado.\n{Temperatures[porcentaje]}";
+        StateInfoLabel = $"Número equivocado.<br><strong>{Temperatures[porcentaje]}</strong>";
 
         AttemptsLabel = AttemptsLabel == "" ? $"Intentos:\n{NumberInput}" : AttemptsLabel + $"\n{NumberInput}";
 
         RemainingChances -= 1;
 
         NumberInput = null;
-        IsAdivinarBtnEnabled = false;
         GameInfoLabel = "";
         
         if (RemainingChances <= 0)
         {
-            StateInfoLabel = $"Número equivocado.\nSe han acabado los intentos. El número era {NumberToBeGuessed}..";
+            StateInfoLabel = $"Número equivocado.<br>Se han acabado los intentos. El número era {NumberToBeGuessed}..";
             GameStatus = false;
             IsGameCompleted = true;
         }
@@ -118,7 +114,6 @@ internal class GuessTheNumberViewModel : ObservableObject
         OnPropertyChanged(nameof(StateInfoLabel));
         OnPropertyChanged(nameof(AttemptsLabel));
         OnPropertyChanged(nameof(IsGameCompleted));
-        OnPropertyChanged(nameof(IsAdivinarBtnEnabled));
     }
 
 }

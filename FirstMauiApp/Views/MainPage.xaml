@@ -40,24 +40,6 @@
                 Clicked="IniciarJuegoClicked"
                 HorizontalOptions="Center" />
 
-
-            <!--<Entry 
-                x:Name="entry"
-                Placeholder="Ingrese Número"
-                Keyboard="Numeric"
-                HorizontalOptions="Center"
-                Completed="OnEntryCompleted" />-->
-            
-            
-            <!--<Button
-                x:Name="CounterBtn"
-                Text="Click me"
-                SemanticProperties.Hint="Counts the number of times you click"
-                Clicked="OnCounterClicked"
-                HorizontalOptions="Center" />-->
-
-            
-
         </VerticalStackLayout>
     </ScrollView>
 

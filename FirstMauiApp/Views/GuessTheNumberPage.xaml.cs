@@ -1,4 +1,5 @@
 using Microsoft.Maui.ApplicationModel;
+using System.Text.RegularExpressions;
 
 namespace FirstMauiApp.Views;
 
@@ -32,7 +33,7 @@ public partial class GuessTheNumberPage : ContentPage
             return;
 
         AdivinarBtn.IsEnabled = e.NewTextValue != "" && e.NewTextValue != null;
-        
+        if (e.NewTextValue != null && NumberEntry.IsEnabled) NumberEntry.Text = Regex.Replace(e.NewTextValue, "[^0-9]", "");
     }
 
 }
