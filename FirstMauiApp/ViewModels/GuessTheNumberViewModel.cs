@@ -60,6 +60,9 @@ internal class GuessTheNumberViewModel : ObservableObject
 
     public void ValidateNumber()
     {
+        if (NumberInput == null)
+            return;
+
         IsErrorLabelVisible = false;
         OnPropertyChanged(nameof(IsErrorLabelVisible));
         if (NumberInput > MaxGuess || NumberInput < MinGuess) // Por favor, ingrese número entre 0 y 30 xd 

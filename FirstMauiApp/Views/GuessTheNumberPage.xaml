@@ -41,6 +41,7 @@
                     Padding="35,5,0,5"
                     IsVisible="{Binding IsErrorLabelVisible}"/>
             </Border>
+            
             <Button
                 x:Name="AdivinarBtn"
                 Text="Adivinar"
@@ -59,15 +60,15 @@
                 HorizontalOptions="Center" />
 
             <Button
+                ImageSource="{AppThemeBinding Light=reload_icon_11.png, Dark=reload_icon_dark.png}"
                 Text="Volver a Jugar"
-                ImageSource="{AppThemeBinding Light=refresh_arrow.png, Dark=refresh_arrow_dark.png}"
                 ContentLayout="Left,10"
                 FontSize="20"
-                HorizontalOptions="Center"
                 Clicked="ReiniciarBtnClicked"
                 FontAttributes="Bold"
+                HorizontalOptions="Center"
                 IsVisible="{Binding IsGameCompleted}"/>
-
+            
             <Label 
                 Text="{Binding AttemptsLabel}"
                 FontSize="20"
