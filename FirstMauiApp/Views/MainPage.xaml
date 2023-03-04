@@ -1,8 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:FirstMauiApp.ViewModels"
              x:Class="FirstMauiApp.Views.MainPage">
-
+    <ContentPage.BindingContext>
+        <viewModels:MainViewModel />
+    </ContentPage.BindingContext>
     <ScrollView>
         <VerticalStackLayout
             Spacing="25"
@@ -26,17 +29,22 @@
 
             <Label
                 x:Name="LevelTwoLbl"
-                Text="Te pediremos que adivines el número entre 0 y 2 &#10; Tienes 5 oportunidades &#10; ¡Comencemos!"
+                Text="Te pediremos que adivines un número en un rango determinado. &#10; Selecciona una opción:"
                 SemanticProperties.HeadingLevel="Level2"
-                SemanticProperties.Description="Welcome to dot net Multi platform App U I"
                 FontSize="18"
                 HorizontalTextAlignment="Center"
                 VerticalTextAlignment="Center"
                 HorizontalOptions="Center" />
 
             <Button
-                Text="Iniciar Juego"
-                SemanticProperties.Hint="Comienza el juego Guess The Number"
+                Text="Crear Partida"
+                SemanticProperties.Hint="Crear partida del juego Guess The Number"
+                Command="{Binding NewGameCommand}"
+                HorizontalOptions="Center" />
+            
+            <Button
+                Text="Partida Rápida"
+                SemanticProperties.Hint="Comienza una partida rápida del juego Guess The Number"
                 Clicked="IniciarJuegoClicked"
                 HorizontalOptions="Center" />
 

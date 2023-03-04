@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:FirstMauiApp.ViewModels"
+             x:Class="FirstMauiApp.Views.NewGamePage"
+             Title="Game: Guess The Number">
+    <ContentPage.BindingContext>
+        <viewModels:NewGameViewModel/>
+    </ContentPage.BindingContext>
+    <ScrollView>
+        <VerticalStackLayout Margin="20" Spacing="15">
+
+            <Label 
+                Text="Ingrese Rango"
+                FontSize="25"
+                VerticalOptions="Center" 
+                HorizontalOptions="Center"
+                Padding="0,0,0,30"
+                />
+        
+            <Label 
+                Text="MÍNIMO"
+                VerticalOptions="Center" 
+                HorizontalOptions="Center" />
+            <Entry 
+                Text="{Binding MinGuess}"
+                Keyboard="Numeric"
+                FontSize="30"
+                HorizontalTextAlignment="Center"
+                TextChanged="NumberGuess_TextChanged"
+                ReturnCommand="{Binding CalculateMaxChancesCommand}"
+                />
+            <Label 
+                Text="MÁXIMO"
+                VerticalOptions="Center" 
+                HorizontalOptions="Center" />
+            <Entry 
+                Text="{Binding MaxGuess}"
+                Keyboard="Numeric"
+                FontSize="30"
+                ReturnCommand="{Binding CalculateMaxChancesCommand}"
+                TextChanged="NumberGuess_TextChanged"
+                HorizontalTextAlignment="Center"
+                />
+
+            <Grid RowDefinitions="*" ColumnDefinitions="219,*">
+                <Label 
+                    Text="INTENTOS"
+                    VerticalOptions="Center" 
+                    HorizontalOptions="End" />
+                <ImageButton 
+                    HorizontalOptions="Start" 
+                    Padding="5,0,0,0" 
+                    Grid.Column="1" 
+                    Source="edit_icon_dark_2.png"
+                    Command="{Binding EnableChancesCommand}"
+                    CommandParameter="{Reference MaxChancesEntry}"/>
+            </Grid>
+            <Entry 
+                x:Name="MaxChancesEntry"
+                Text="{Binding MaxChances}"
+                Keyboard="Numeric"
+                FontSize="30"
+                HorizontalTextAlignment="Center"
+                IsEnabled="{Binding IsMaxChancesEditable}"
+                Margin="0,0,0,2"
+                />
+            <Label
+                FontSize="11"
+                Text="* Este valor es calculado automáticamente según el rango ingresado"
+                Padding="0,0,0,20"/>
+
+            <Button
+                Text="Iniciar Juego"
+                FontSize="20"
+                WidthRequest="200"
+                FontAttributes="Bold"
+                SemanticProperties.Hint="Iniciar partida del juego Guess The Number"
+                Command="{Binding StartGameCommand}"
+                HorizontalOptions="Center"/>
+       
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

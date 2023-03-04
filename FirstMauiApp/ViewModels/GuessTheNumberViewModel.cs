@@ -7,11 +7,11 @@ using static System.Net.Mime.MediaTypeNames;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace FirstMauiApp.ViewModels;
-internal class GuessTheNumberViewModel : ObservableObject
+internal class GuessTheNumberViewModel : ObservableObject, IQueryAttributable
 {
-    public int MinGuess => 0;
-    public int MaxGuess => 30;
-    public int MaxChances => 5;
+    public int MinGuess { get; set; } = 0;
+    public int MaxGuess { get; set; } = 30;
+    public int MaxChances { get; set; } = 5;
     public int RemainingChances { get; set; }
     
     private string _gameInfoLabel;
@@ -56,6 +56,23 @@ internal class GuessTheNumberViewModel : ObservableObject
         IsErrorLabelVisible = false;
         ErrorLabel = $"Por favor, ingrese un número entre {MinGuess} y {MaxGuess}";
         ValidateNumberCommand = new RelayCommand(ValidateNumber);
+    }
+
+    void IQueryAttributable.ApplyQueryAttributes(IDictionary<string, object> query)
+    {
+        if (query.ContainsKey("minguess"))
+        { 
+            MinGuess = int.Parse(query["minguess"].ToString());
+            MaxGuess = int.Parse(query["maxguess"].ToString());
+            MaxChances = int.Parse(query["maxchances"].ToString());
+            RemainingChances = MaxChances;
+            NumberToBeGuessed = new Random().Next(MinGuess, MaxGuess);
+            GameInfoLabel = "";
+            ErrorLabel = $"Por favor, ingrese un número entre {MinGuess} y {MaxGuess}";
+
+            OnPropertyChanged(nameof(GameInfoLabel));
+            OnPropertyChanged(nameof(ErrorLabel));
+        }
     }
 
     public void ValidateNumber()
