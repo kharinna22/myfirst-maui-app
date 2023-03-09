@@ -1,5 +1,7 @@
+using FirstMauiApp.ViewModels;
 using Microsoft.Maui.ApplicationModel;
 using System.Text.RegularExpressions;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace FirstMauiApp.Views;
 
@@ -16,7 +18,9 @@ public partial class GuessTheNumberPage : ContentPage
     {
         var page = Navigation.NavigationStack.LastOrDefault();
 
-        await Shell.Current.GoToAsync(nameof(GuessTheNumberPage), false);
+        GuessTheNumberViewModel viewModel = this.BindingContext as GuessTheNumberViewModel;
+
+        await Shell.Current.GoToAsync($"{nameof(GuessTheNumberPage)}?minguess={viewModel.MinGuess}&maxguess={viewModel.MaxGuess}&maxchances={viewModel.MaxChances}", false);
 
         Navigation.RemovePage(page);
     }

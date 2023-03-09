@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:FirstMauiApp.ViewModels"
+             x:Class="FirstMauiApp.Views.RandomPage"
+             Title="Random">
+    <ContentPage.BindingContext>
+        <viewModels:RandomViewModel/> 
+    </ContentPage.BindingContext>
+    <ScrollView>
+        <VerticalStackLayout Margin="20" Spacing="20">
+            <Grid
+                RowDefinitions="*,*"
+                ColumnDefinitions="*,*,*,*"
+                RowSpacing="20">
+
+                <Grid
+                    RowSpacing="10"
+                    RowDefinitions="*,*">
+
+                    <Label 
+                        Text="1 - 2"
+                        FontSize="15"
+                        TextColor="DimGray"
+                        VerticalOptions="Center" 
+                        HorizontalOptions="Center" />
+                    <Label 
+                        Grid.Row="1"
+                        Text="{Binding OneToTwo}"
+                        FontSize="25"
+                        FontAttributes="Bold"
+                        VerticalOptions="Center" 
+                        HorizontalOptions="Center" />
+
+                </Grid>
+
+                <Grid
+                    Grid.Column="1"
+                    RowSpacing="10"
+                    RowDefinitions="*,*">
+                    
+                    <Label 
+                        Text="1 - 3"
+                        FontSize="15"
+                        TextColor="DimGray"
+                        VerticalOptions="Center" 
+                        HorizontalOptions="Center" />
+                    <Label 
+                        Grid.Row="1"
+                        Text="{Binding OneToThree}"
+                        FontSize="25"
+                        FontAttributes="Bold"
+                        VerticalOptions="Center" 
+                        HorizontalOptions="Center" />
+                    
+                </Grid>
+
+                <Grid
+                    Grid.Column="2"
+                    RowSpacing="10"
+                    RowDefinitions="*,*">
+
+                    <Label 
+                        Text="1 - 4"
+                        FontSize="15"
+                        TextColor="DimGray"
+                        VerticalOptions="Center" 
+                        HorizontalOptions="Center" />
+                    <Label 
+                        Grid.Row="1"
+                        Text="{Binding OneToFour}"
+                        FontSize="25"
+                        FontAttributes="Bold"
+                        VerticalOptions="Center" 
+                        HorizontalOptions="Center" />
+
+                </Grid>
+
+                <Grid
+                    Grid.Column="3"
+                    RowSpacing="10"
+                    RowDefinitions="*,*">
+
+                    <Label 
+                        Text="1 - 5"
+                        FontSize="15"
+                        TextColor="DimGray"
+                        VerticalOptions="Center" 
+                        HorizontalOptions="Center" />
+                    <Label 
+                        Grid.Row="1"
+                        Text="{Binding OneToFive}"
+                        FontSize="25"
+                        FontAttributes="Bold"
+                        VerticalOptions="Center" 
+                        HorizontalOptions="Center" />
+
+                </Grid>
+
+
+                <Grid
+                    Grid.Row="1"
+                    RowSpacing="10"
+                    RowDefinitions="*,*">
+
+                    <Label 
+                        Text="1 - 6"
+                        FontSize="15"
+                        TextColor="DimGray"
+                        VerticalOptions="Center" 
+                        HorizontalOptions="Center" />
+                    <Label 
+                        Grid.Row="1"
+                        Text="{Binding OneToSix}"
+                        FontSize="25"
+                        FontAttributes="Bold"
+                        VerticalOptions="Center" 
+                        HorizontalOptions="Center" />
+
+                </Grid>
+
+                <Grid
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    RowSpacing="10"
+                    RowDefinitions="*,*">
+
+                    <Label
+                        Text="1 - 8"
+                        FontSize="15"
+                        TextColor="DimGray"
+                        VerticalOptions="Center" 
+                        HorizontalOptions="Center" />
+                    <Label 
+                        Grid.Row="1"
+                        Text="{Binding OneToEight}"
+                        FontSize="25"
+                        FontAttributes="Bold"
+                        VerticalOptions="Center" 
+                        HorizontalOptions="Center" />
+                </Grid>
+
+                <Grid
+                    Grid.Row="1"
+                    Grid.Column="2"
+                    RowSpacing="10"
+                    RowDefinitions="*,*">
+
+                    <Label
+                        Text="1 - 9"
+                        FontSize="15"
+                        TextColor="DimGray"
+                        VerticalOptions="Center" 
+                        HorizontalOptions="Center" />
+                    <Label 
+                        Grid.Row="1"
+                        Text="{Binding OneToNine}"
+                        FontSize="25"
+                        FontAttributes="Bold"
+                        VerticalOptions="Center" 
+                        HorizontalOptions="Center" />
+                </Grid>
+
+                <Grid
+                    Grid.Row="1"
+                    Grid.Column="3"
+                    RowSpacing="10"
+                    RowDefinitions="*,*">
+
+                    <Label
+                        Text="1 - 300"
+                        FontSize="15"
+                        TextColor="DimGray"
+                        VerticalOptions="Center" 
+                        HorizontalOptions="Center" />
+                    <Label 
+                        Grid.Row="1"
+                        Text="{Binding OneToThreeHundred}"
+                        FontSize="25"
+                        FontAttributes="Bold"
+                        VerticalOptions="Center" 
+                        HorizontalOptions="Center" />
+                </Grid>
+            </Grid>
+            
+
+            
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

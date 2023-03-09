@@ -3,8 +3,6 @@ using CommunityToolkit.Mvvm.Input;
 using FirstMauiApp.Views;
 using Microsoft.Maui.ApplicationModel;
 using System.Windows.Input;
-using static System.Net.Mime.MediaTypeNames;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace FirstMauiApp.ViewModels;
 internal class GuessTheNumberViewModel : ObservableObject, IQueryAttributable
@@ -30,7 +28,7 @@ internal class GuessTheNumberViewModel : ObservableObject, IQueryAttributable
     public string StateInfoLabel { get; set; } = "";
     public string AttemptsLabel { get; set; } = "";
     public string ErrorLabel { get; set; }
-    public bool GameStatus { get; set; }
+    public bool GameStatus { get; set; } = true;
     public bool IsGameCompleted { get; set; }
     public bool IsErrorLabelVisible { get; set; }
     public int NumberToBeGuessed { get; set; }
@@ -48,31 +46,25 @@ internal class GuessTheNumberViewModel : ObservableObject, IQueryAttributable
 
     public GuessTheNumberViewModel()
     {
-        NumberToBeGuessed = new Random().Next(MinGuess, MaxGuess);
-        RemainingChances = MaxChances;
-        GameInfoLabel = "";
-        GameStatus = true;
-        IsGameCompleted = false;
-        IsErrorLabelVisible = false;
-        ErrorLabel = $"Por favor, ingrese un número entre {MinGuess} y {MaxGuess}";
         ValidateNumberCommand = new RelayCommand(ValidateNumber);
     }
 
-    void IQueryAttributable.ApplyQueryAttributes(IDictionary<string, object> query)
+    public void ApplyQueryAttributes(IDictionary<string, object> query)
     {
         if (query.ContainsKey("minguess"))
-        { 
+        {
             MinGuess = int.Parse(query["minguess"].ToString());
             MaxGuess = int.Parse(query["maxguess"].ToString());
             MaxChances = int.Parse(query["maxchances"].ToString());
-            RemainingChances = MaxChances;
-            NumberToBeGuessed = new Random().Next(MinGuess, MaxGuess);
-            GameInfoLabel = "";
-            ErrorLabel = $"Por favor, ingrese un número entre {MinGuess} y {MaxGuess}";
-
-            OnPropertyChanged(nameof(GameInfoLabel));
-            OnPropertyChanged(nameof(ErrorLabel));
         }
+
+        NumberToBeGuessed = new Random().Next(MinGuess, MaxGuess + 1);
+        RemainingChances = MaxChances;
+        GameInfoLabel = "";
+        ErrorLabel = $"Por favor, ingrese un número entre {MinGuess} y {MaxGuess}";
+
+        OnPropertyChanged(nameof(GameInfoLabel));
+        OnPropertyChanged(nameof(ErrorLabel));
     }
 
     public void ValidateNumber()
@@ -82,7 +74,7 @@ internal class GuessTheNumberViewModel : ObservableObject, IQueryAttributable
 
         IsErrorLabelVisible = false;
         OnPropertyChanged(nameof(IsErrorLabelVisible));
-        if (NumberInput > MaxGuess || NumberInput < MinGuess) // Por favor, ingrese número entre 0 y 30 xd 
+        if (NumberInput > MaxGuess || NumberInput < MinGuess)
         {
             IsErrorLabelVisible = true;
             OnPropertyChanged(nameof(IsErrorLabelVisible));

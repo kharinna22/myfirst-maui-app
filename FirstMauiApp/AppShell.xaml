@@ -3,29 +3,51 @@
     x:Class="FirstMauiApp.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:views="clr-namespace:FirstMauiApp.Views"
-    Shell.FlyoutBehavior="Disabled">
-
-    <TabBar>
+    xmlns:views="clr-namespace:FirstMauiApp.Views">
+    <FlyoutItem 
+        Title="Game: Guess The Number"
+        Icon="{AppThemeBinding Light=puzzle.png, Dark=puzzle_darkmode.png}">
+        
         <ShellContent
             Title="Game: Guess The Number"
-            ContentTemplate="{DataTemplate views:MainPage}"
-            Icon="{OnPlatform 'puzzle.png'}"/>
+            ContentTemplate="{DataTemplate views:MainPage}"/>
+    
+    </FlyoutItem>
+
+    <FlyoutItem
+        Title="Random"
+        Icon="{AppThemeBinding Light=dices.png, Dark=dices_darkmode.png}">
 
         <ShellContent
+            Title="Random"
+            ContentTemplate="{DataTemplate views:RandomPage}"/>
+
+    </FlyoutItem>
+
+    <FlyoutItem 
+        Title="Otros"
+        Icon="{AppThemeBinding Light=otro.png, Dark=otro_darkmode.png}">
+
+        <Tab 
             Title="Notes"
-            ContentTemplate="{DataTemplate views:AllNotesPage}"
-            Icon="{OnPlatform 'icon_notes.png', iOS='icon_notes_ios.png', MacCatalyst='icon_notes_ios.png'}"/>
+            Icon="{OnPlatform 'icon_notes.png', iOS='icon_notes_ios.png', MacCatalyst='icon_notes_ios.png'}">
 
-        <ShellContent
-            Title="About Sample"
-            ContentTemplate="{DataTemplate views:AboutPage}"
-            Icon="{OnPlatform 'icon_about.png', iOS='icon_about_ios.png', MacCatalyst='icon_about_ios.png'}" />
+            <ShellContent
+                Title="Notes"
+                ContentTemplate="{DataTemplate views:AllNotesPage}"/>
 
-    </TabBar>
+        </Tab>
 
-    <ShellContent 
-        Title="Game: Guess The Number"
-        ContentTemplate="{DataTemplate views:GuessTheNumberPage}"/>
+        <Tab 
+            Title="About"
+            Icon="{OnPlatform 'icon_about.png', iOS='icon_about_ios.png', MacCatalyst='icon_about_ios.png'}">
 
+            <ShellContent
+                Title="About"
+                ContentTemplate="{DataTemplate views:AboutPage}"/>
+
+        </Tab>
+
+    </FlyoutItem>
+    
 </Shell>

@@ -45,7 +45,7 @@
             <Button
                 Text="Partida Rápida"
                 SemanticProperties.Hint="Comienza una partida rápida del juego Guess The Number"
-                Clicked="IniciarJuegoClicked"
+                Command="{Binding DefaultGameCommand}"
                 HorizontalOptions="Center" />
 
         </VerticalStackLayout>

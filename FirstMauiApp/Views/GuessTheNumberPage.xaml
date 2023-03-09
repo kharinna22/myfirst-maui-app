@@ -12,6 +12,7 @@
         <VerticalStackLayout Margin="20" Spacing="20">
         
             <Label 
+                x:Name="GameInfoLabel"
                 Text="{Binding GameInfoLabel}"
                 FontSize="20"
                 VerticalOptions="Center" 
@@ -27,16 +28,20 @@
                 Text="{Binding NumberInput}"
                 HorizontalOptions="Fill"
                 TextChanged="NumberInputChanged"
-                ReturnCommand="{Binding ValidateNumberCommand}"/>
+                ReturnCommand="{Binding ValidateNumberCommand}"
+                Margin="0,0,0,-20"/>
 
             <Border
                 StrokeShape="RoundRectangle 0,40,40,40"
+                StrokeThickness="2"
+                Margin="0,0,0,-15"
+                Stroke="{AppThemeBinding Dark=#842029, Light=#f1aeb5}"
                 IsVisible="{Binding IsErrorLabelVisible}">
                 <Label 
                     Text="{Binding ErrorLabel}"
                     FontSize="15"
-                    TextColor="White"
-                    BackgroundColor="Red"
+                    TextColor="{AppThemeBinding Dark=#ea868f, Light=#b02a37}"
+                    BackgroundColor="{AppThemeBinding Dark=#2c0b0e, Light=#f8d7da}"
                     FontAttributes="Bold"
                     Padding="35,5,0,5"
                     IsVisible="{Binding IsErrorLabelVisible}"/>

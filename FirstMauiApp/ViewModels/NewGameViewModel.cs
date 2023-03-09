@@ -20,7 +20,6 @@ internal class NewGameViewModel : ObservableObject
     {
         StartGameCommand = new AsyncRelayCommand(StartGame);
 
-
         EnableChancesCommand = new Command<View>((view) => { EnableChances(view); });
         CalculateMaxChancesCommand = new RelayCommand(CalculateMaxChances);
     }
