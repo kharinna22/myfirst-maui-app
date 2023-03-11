@@ -9,11 +9,21 @@ public partial class NewGamePage : ContentPage
 		InitializeComponent();
 	}
 
-    private void NumberGuess_TextChanged(object sender, TextChangedEventArgs e)
-    {
+	private void NumberGuess_TextChanged(object sender, TextChangedEventArgs e)
+	{
 		NewGameViewModel viewModel = (NewGameViewModel)this.BindingContext;
 
-		if (viewModel.CalculateMaxChancesCommand.CanExecute(null))
-			viewModel.CalculateMaxChancesCommand.Execute(null);
+		if (viewModel.VerifyNumbersRangeCommand.CanExecute(null))
+			viewModel.VerifyNumbersRangeCommand.Execute(null);
+	}
+
+	private void NumberChances_TextChanged(object sender, TextChangedEventArgs e)
+	{
+        NewGameViewModel viewModel = (NewGameViewModel)this.BindingContext;
+
+		if(viewModel.IsMaxChancesEditable)
+            if (viewModel.VerifyNumberChancesCommand.CanExecute(null))
+                viewModel.VerifyNumberChancesCommand.Execute(null);
+
     }
 }

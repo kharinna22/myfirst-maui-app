@@ -23,25 +23,69 @@
                 VerticalOptions="Center" 
                 HorizontalOptions="Center" />
             <Entry 
-                Text="{Binding MinGuess}"
+                Text="{Binding MinGuessEntry}"
                 Keyboard="Numeric"
                 FontSize="30"
                 HorizontalTextAlignment="Center"
                 TextChanged="NumberGuess_TextChanged"
                 ReturnCommand="{Binding CalculateMaxChancesCommand}"
                 />
+            <Border
+                StrokeShape="RoundRectangle 0,40,40,40"
+                StrokeThickness="2"
+                Margin="0,-20,0,0"
+                Stroke="{AppThemeBinding Dark=#842029, Light=#f1aeb5}"
+                IsVisible="{Binding IsMinGuessEmpty}">
+                <Label 
+                    Text="Debe ingresar un número."
+                    FontSize="15"
+                    TextColor="{AppThemeBinding Dark=#ea868f, Light=#b02a37}"
+                    BackgroundColor="{AppThemeBinding Dark=#2c0b0e, Light=#f8d7da}"
+                    FontAttributes="Bold"
+                    Padding="35,5,0,5"/>
+            </Border>
             <Label 
                 Text="MÁXIMO"
                 VerticalOptions="Center" 
                 HorizontalOptions="Center" />
             <Entry 
-                Text="{Binding MaxGuess}"
+                Text="{Binding MaxGuessEntry}"
                 Keyboard="Numeric"
                 FontSize="30"
                 ReturnCommand="{Binding CalculateMaxChancesCommand}"
                 TextChanged="NumberGuess_TextChanged"
                 HorizontalTextAlignment="Center"
                 />
+            <Border
+                StrokeShape="RoundRectangle 0,40,40,40"
+                StrokeThickness="2"
+                Margin="0,-20,0,0"
+                Stroke="{AppThemeBinding Dark=#842029, Light=#f1aeb5}"
+                IsVisible="{Binding IsMaxGuessEmpty}">
+                <Label 
+                    Text="Debe ingresar un número."
+                    FontSize="15"
+                    TextColor="{AppThemeBinding Dark=#ea868f, Light=#b02a37}"
+                    BackgroundColor="{AppThemeBinding Dark=#2c0b0e, Light=#f8d7da}"
+                    FontAttributes="Bold"
+                    Padding="35,5,0,5"/>
+            </Border>
+
+            <Border
+                StrokeShape="RoundRectangle 5,5,5,5"
+                StrokeThickness="2"
+                Margin="0,-10,0,-10"
+                Stroke="{AppThemeBinding Dark=#842029, Light=#f1aeb5}"
+                IsVisible="{Binding AreNumbersRangeEqual}">
+                <Label 
+                    Text="El número mínimo y máximo deben ser distintos."
+                    FontSize="15"
+                    TextColor="{AppThemeBinding Dark=#ea868f, Light=#b02a37}"
+                    BackgroundColor="{AppThemeBinding Dark=#2c0b0e, Light=#f8d7da}"
+                    FontAttributes="Bold"
+                    Padding="35,5,0,5"/>
+            </Border>
+
 
             <Grid RowDefinitions="*" ColumnDefinitions="219,*">
                 <Label 
@@ -58,13 +102,28 @@
             </Grid>
             <Entry 
                 x:Name="MaxChancesEntry"
-                Text="{Binding MaxChances}"
+                Text="{Binding MaxChancesEntry}"
                 Keyboard="Numeric"
                 FontSize="30"
+                TextChanged="NumberChances_TextChanged"
                 HorizontalTextAlignment="Center"
                 IsEnabled="{Binding IsMaxChancesEditable}"
-                Margin="0,0,0,2"
+                Margin="0,0,0,-10"
                 />
+            <Border
+                StrokeShape="RoundRectangle 0,40,40,40"
+                StrokeThickness="2"
+                Margin="0,-10,0,-10"
+                Stroke="{AppThemeBinding Dark=#842029, Light=#f1aeb5}"
+                IsVisible="{Binding IsMaxChancesErrorVisible}">
+                <Label 
+                    Text="{Binding MaxChancesErrorLabel}"
+                    FontSize="15"
+                    TextColor="{AppThemeBinding Dark=#ea868f, Light=#b02a37}"
+                    BackgroundColor="{AppThemeBinding Dark=#2c0b0e, Light=#f8d7da}"
+                    FontAttributes="Bold"
+                    Padding="35,5,0,5"/>
+            </Border>
             <Label
                 FontSize="11"
                 Text="* Este valor es calculado automáticamente según el rango ingresado"
@@ -77,6 +136,7 @@
                 FontAttributes="Bold"
                 SemanticProperties.Hint="Iniciar partida del juego Guess The Number"
                 Command="{Binding StartGameCommand}"
+                IsEnabled="{Binding IsStartButtonEnabled}"
                 HorizontalOptions="Center"/>
        
         </VerticalStackLayout>
