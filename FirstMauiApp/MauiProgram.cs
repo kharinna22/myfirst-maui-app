@@ -1,7 +1,6 @@
 ﻿using CommunityToolkit.Maui;
 using FirstMauiApp.Data;
 using FirstMauiApp.ViewModels;
-using FirstMauiApp.Views;
 using Syncfusion.Maui.Core.Hosting;
 
 namespace FirstMauiApp;
