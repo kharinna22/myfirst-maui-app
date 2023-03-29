@@ -1,4 +1,8 @@
 ﻿using CommunityToolkit.Maui;
+using FirstMauiApp.Data;
+using FirstMauiApp.ViewModels;
+using FirstMauiApp.Views;
+using Syncfusion.Maui.Core.Hosting;
 
 namespace FirstMauiApp;
 
@@ -16,6 +20,12 @@ public static class MauiProgram
 			});
 		builder.UseMauiCommunityToolkit();
 
-		return builder.Build();
+
+        builder.Services.AddSingleton<SimsFoodViewModel>();
+		builder.Services.AddSingleton<RecipesDatabase>();
+
+        builder.ConfigureSyncfusionCore();
+
+        return builder.Build();
 	}
 }

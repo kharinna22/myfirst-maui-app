@@ -15,11 +15,11 @@
 		<ApplicationTitle>Kei's App</ApplicationTitle>
 
 		<!-- App Identifier -->
-		<ApplicationId>com.companyname.firstmauiapp</ApplicationId>
+		<ApplicationId>com.keidevelopment.firstmauiapp</ApplicationId>
 		<ApplicationIdGuid>ed02f3e2-ef6c-4cfa-9c66-a6169cb4871c</ApplicationIdGuid>
 
 		<!-- Versions -->
-		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+		<ApplicationDisplayVersion>1.8</ApplicationDisplayVersion>
 		<ApplicationVersion>1</ApplicationVersion>
 
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">11.0</SupportedOSPlatformVersion>
@@ -49,14 +49,72 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove="Resources\Raw\Components.csv" />
+	  <None Remove="Resources\Raw\Components_Ingredients.csv" />
+	  <None Remove="Resources\Raw\Foods_Others.csv" />
+	  <None Remove="Resources\Raw\Foods_Packs.csv" />
+	  <None Remove="Resources\Raw\Foods_ServingTimes.csv" />
+	  <None Remove="Resources\Raw\Ingredients.csv" />
+	  <None Remove="Resources\Raw\Others.csv" />
+	  <None Remove="Resources\Raw\Packs.csv" />
+	  <None Remove="Resources\Raw\Recipes.csv" />
+	  <None Remove="Resources\Raw\ServingTimes.csv" />
+	  <None Remove="Resources\Raw\Sizes.csv" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <PackageReference Include="CommunityToolkit.Maui" Version="5.0.0" />
 	  <PackageReference Include="CommunityToolkit.Mvvm" Version="8.1.0" />
+	  <PackageReference Include="sqlite-net-pcl" Version="1.8.116" />
+	  <PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.4" />
+	  <PackageReference Include="Syncfusion.Maui.DataGrid" Version="21.1.35" />
+	  <PackageReference Include="Syncfusion.Maui.ListView" Version="21.1.35" />
+	  <PackageReference Include="Syncfusion.Maui.Popup" Version="21.1.35" />
 	</ItemGroup>
 
 	<ItemGroup>
 	  <Compile Update="Views\RandomPage.xaml.cs">
 	    <DependentUpon>RandomPage.xaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="Views\SimsFoodPage.xaml.cs">
+	    <DependentUpon>SimsFoodPage.xaml</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiAsset Update="Resources\Raw\Foods_Packs.csv">
+	    <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
+	  </MauiAsset>
+	  <MauiAsset Update="Resources\Raw\Foods_ServingTimes.csv">
+	    <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
+	  </MauiAsset>
+	  <MauiAsset Update="Resources\Raw\Packs.csv">
+	    <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
+	  </MauiAsset>
+	  <MauiAsset Update="Resources\Raw\Components.csv">
+	    <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
+	  </MauiAsset>
+	  <MauiAsset Update="Resources\Raw\Foods_Others.csv">
+	    <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
+	  </MauiAsset>
+	  <MauiAsset Update="Resources\Raw\Components_Ingredients.csv">
+	    <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
+	  </MauiAsset>
+	  <MauiAsset Update="Resources\Raw\Recipes.csv">
+	    <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
+	  </MauiAsset>
+	  <MauiAsset Update="Resources\Raw\Others.csv">
+	    <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
+	  </MauiAsset>
+	  <MauiAsset Update="Resources\Raw\ServingTimes.csv">
+	    <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
+	  </MauiAsset>
+	  <MauiAsset Update="Resources\Raw\Ingredients.csv">
+	    <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
+	  </MauiAsset>
+	  <MauiAsset Update="Resources\Raw\Sizes.csv">
+	    <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
+	  </MauiAsset>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -76,6 +134,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\NotePage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\SimsFoodPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>

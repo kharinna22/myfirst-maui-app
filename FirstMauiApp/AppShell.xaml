@@ -24,6 +24,17 @@
 
     </FlyoutItem>
 
+    <FlyoutItem
+        Title="Sims Food">
+
+        <ShellContent
+            Title="Sims Food"
+            ContentTemplate="{DataTemplate views:SimsFoodPage}"
+            Route="SimsFoodPage"/>
+
+    </FlyoutItem>
+
+
     <FlyoutItem 
         Title="Otros"
         Icon="{AppThemeBinding Light=otro.png, Dark=otro_darkmode.png}">

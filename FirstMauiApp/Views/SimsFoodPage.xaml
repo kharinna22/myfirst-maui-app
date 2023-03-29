@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:FirstMauiApp.ViewModels"
+             x:Class="FirstMauiApp.Views.SimsFoodPage"
+             Title="Sims Food"
+             xmlns:models="clr-namespace:FirstMauiApp.Models"
+             xmlns:syncfusion="clr-namespace:Syncfusion.Maui.DataGrid;assembly=Syncfusion.Maui.DataGrid"
+             xmlns:popup="clr-namespace:Syncfusion.Maui.Popup;assembly=Syncfusion.Maui.Popup">
+
+    <ContentPage.BindingContext>
+        <viewModels:SimsFoodViewModel/>
+    </ContentPage.BindingContext>
+
+    <StackLayout Margin="20" Spacing="10">
+            <Grid 
+                RowDefinitions="*"
+                ColumnDefinitions="*,*">
+                <Button
+                    x:Name="Filters"
+                    Text="Filtros"
+                    WidthRequest="80"
+                    HorizontalOptions="Start"
+                    Clicked="ClickToShowPopup_Clicked"/>
+                
+                <Entry 
+                    Grid.Column="1"
+                    Placeholder="Buscar"
+                    Text="{Binding Search}"
+                    HorizontalTextAlignment="Start"
+                    TextChanged="SearchEntry_TextChanged"/>
+
+            </Grid>
+            
+            <syncfusion:SfDataGrid 
+                x:Name="dataGrid"
+                ItemsSource="{Binding Items}"
+                AutoGenerateColumnsMode="None"
+                ColumnWidthMode="Fill"
+                RowHeight="100"
+                SortingMode="Single">
+                <syncfusion:SfDataGrid.DefaultStyle>
+                    <syncfusion:DataGridStyle 
+                        HeaderRowBackground="{AppThemeBinding Dark=#212529,Light=#f8f9fa}" 
+                        HeaderRowTextColor="{AppThemeBinding Dark=#ADB5BD,Light=#000}" 
+                        RowBackground="{AppThemeBinding Dark=#212529,Light=#f8f9fa}" 
+                        RowTextColor="{AppThemeBinding Dark=#ADB5BD,Light=#000}"
+                        HeaderRowFontAttributes="Bold"
+                        GridLineColor="{AppThemeBinding Dark=#373b3e,Light=#dfe0e1}"
+                        GridLineStrokeThickness="2"
+                        />
+                </syncfusion:SfDataGrid.DefaultStyle>
+                <syncfusion:SfDataGrid.Columns>
+                    <syncfusion:DataGridTextColumn 
+                        MappingName="Id" 
+                        HeaderText="ID"
+                        Width="70"/>
+                    <syncfusion:DataGridTextColumn 
+                        MappingName="NameES" 
+                        HeaderText="Nombre"/>
+                    <syncfusion:DataGridTextColumn 
+                        MappingName="Skill" 
+                        HeaderText="Habilidad"
+                        Width="120"
+                        CellTextAlignment="Center"/>
+                </syncfusion:SfDataGrid.Columns>
+            </syncfusion:SfDataGrid>
+
+        <popup:SfPopup 
+                x:Name="popup"
+                HeaderTitle="Filtros"
+                ShowCloseButton="True"
+                ShowFooter="True"
+                AcceptButtonText="ACEPTAR"
+                AutoSizeMode="Height"
+                AppearanceMode="OneButton">
+            <popup:SfPopup.ContentTemplate>
+                <DataTemplate>
+                    <Label 
+                        Text="This is the Customized view for SfPopup"
+                        BackgroundColor="SkyBlue"
+                        VerticalTextAlignment="Center"
+                        HorizontalTextAlignment="Center" />
+                    
+                </DataTemplate>
+            </popup:SfPopup.ContentTemplate>
+        </popup:SfPopup>
+
+    </StackLayout>
+    
+</ContentPage>
