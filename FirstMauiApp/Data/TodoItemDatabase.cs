@@ -12,20 +12,21 @@ namespace FirstMauiApp.Data
 {
     public class RecipesDatabase
     {
-        SQLiteAsyncConnection Database;
+        private SQLiteAsyncConnection Database;
         /* Listas estáticas ya que se espera sólo lectura */
-        List<Food> Foods;
-        List<Size> Sizes;
-        List<Ingredient> Ingredients;
-        List<ServingTime> ServingTimes;
-        List<Other> Others;
-        List<Pack> Packs;
-        List<Recipe> Recipes;
-        List<Component> Components;
-        List<ComponentIngredient> ComponentsIngredients;
-        List<FoodServingTime> FoodsServingTimes;
-        List<FoodOther> FoodsOthers;
-        List<FoodPack> FoodsPacks;
+        private List<Food> Foods;
+        private List<Size> Sizes;
+        private List<Ingredient> Ingredients;
+        private List<ServingTime> ServingTimes;
+        private List<Other> Others;
+        private List<Pack> Packs;
+        private List<Recipe> Recipes;
+        private List<Component> Components;
+        private List<ComponentIngredient> ComponentsIngredients;
+        private List<FoodServingTime> FoodsServingTimes;
+        private List<FoodOther> FoodsOthers;
+        private List<FoodPack> FoodsPacks;
+        List<Filter> Filters;
 
         public RecipesDatabase() { }
 
@@ -83,7 +84,7 @@ namespace FirstMauiApp.Data
                     );
                 }
             }
-            Foods = await Database.Table<Food>().ToListAsync();
+            Foods = await Database.Table<Food>().OrderBy(f => f.NameES).ToListAsync();
 
             // CARGAR SIZES
             if (await Database.Table<Size>().CountAsync() == 0)
@@ -140,6 +141,7 @@ namespace FirstMauiApp.Data
                 }
             }
             Ingredients = await Database.Table<Ingredient>().ToListAsync();
+            Ingredients = Ingredients.OrderBy(i => i.NameES).ToList();
 
             // CARGAR SERVING TIMES
             if (await Database.Table<ServingTime>().CountAsync() == 0)
@@ -367,20 +369,168 @@ namespace FirstMauiApp.Data
             FoodsPacks = await Database.Table<FoodPack>().ToListAsync();
         }
 
-        public async Task<List<Food>> GetItemsAsync()
+        public List<Filter> GetFilters()
         {
-            await Init();
+            List<Filter> filters = new();
 
-            return Foods.OrderBy(f => f.NameES).ToList();
+            foreach (Size size in Sizes)
+                filters.Add(new Filter() { Group = "Tamaño", Id = size.Id, NameEN = size.NameEN, NameES = size.NameES });
+
+            //foreach (Ingredient ingredient in Ingredients)
+            //    filters.Add(new Filter() { Group = "Ingredientes", Id = ingredient.Id, NameEN = ingredient.NameEN, NameES = ingredient.NameES });
+
+            foreach (ServingTime servingTime in ServingTimes)
+                filters.Add(new Filter() { Group = "Comidas del Día", Id = servingTime.Id, NameEN = servingTime.NameEN, NameES = servingTime.NameES });
+
+            foreach (Other other in Others)
+                filters.Add(new Filter() { Group = "Otros", Id = other.Id, NameEN = other.NameEN, NameES = other.NameES });
+
+            foreach (Pack pack in Packs)
+                filters.Add(new Filter() { Group = "Packs", Id = pack.Id, NameEN = pack.NameEN, NameES = pack.NameES });
+
+            return filters;
         }
 
-        public async Task<List<Food>> GetItemsFilteredAsync(string search)
+        public List<Food> GetFoods()
         {
-            await Init();
-            return 
-                Foods
-                    .Where(f => f.NameES.ToUpper().Contains(search.ToUpper()))
+            return Foods;
+        }
+
+        public List<Food> GetItemsFiltered(string search,List<Food> foods)
+        {
+            string searchNormalized = new String(search.Normalize(NormalizationForm.FormD).Where(c => c<128).ToArray());
+
+            return
+                foods
+                    .Where(f => new String(f.NameES.Normalize(NormalizationForm.FormD).Where(c => c < 128).ToArray()).ToUpper().Contains(searchNormalized.ToUpper()))
                     .OrderBy(f => f.NameES).ToList();
         }
+
+        public List<Food> GetItemsFilteredByMultiple(List<Filter> filters)
+        {
+            List<Food> foodsFiltered = Foods.ToList();
+
+            if (filters.FirstOrDefault(f => f.Group == "Tamaño") != null)
+            { 
+                // Obtiene las comidas y sus tamaños
+                foodsFiltered = foodsFiltered
+                        .Join(Recipes,
+                            f => f.Id,
+                            r => r.FoodId,
+                            (f, r) => new { Food = f, Recipe = r })
+                        .Join(filters.Where(s => s.Group == "Tamaño").ToList(),
+                            fr => fr.Recipe.SizeId,
+                            filter => filter.Id,
+                            (fr, filter) => fr.Food)
+                        .ToList();
+
+                foodsFiltered = ObtainFoodsDuplicated(foodsFiltered, filters.Where(s => s.Group == "Tamaño").Count());
+            }
+
+            // Filtro por ingrediente, debe mostrar las comidas que se puedan hacer con esos ingredientes
+
+            if (filters.FirstOrDefault(f => f.Group == "Comidas del Día") != null)
+            {
+                foodsFiltered = foodsFiltered
+                    .Join(FoodsServingTimes,
+                        f => f.Id,
+                        fst => fst.FoodId,
+                        (f, fst) => new { Food = f, FoodServingTime = fst })
+                    .Join(filters.Where(s => s.Group == "Comidas del Día").ToList(),
+                        ffst => ffst.FoodServingTime.ServingTimeId,
+                        filter => filter.Id,
+                        (fr, filter) => fr.Food)
+                    .ToList();
+
+                foodsFiltered = ObtainFoodsDuplicated(foodsFiltered, filters.Where(s => s.Group == "Comidas del Día").Count());
+            }
+
+            if (filters.FirstOrDefault(f => f.Group == "Otros") != null)
+            { 
+                foodsFiltered = foodsFiltered
+                    .Join(FoodsOthers,
+                        f => f.Id,
+                        fo => fo.FoodId,
+                        (f, fo) => new { Food = f, FoodOther = fo })
+                    .Join(filters.Where(s => s.Group == "Otros").ToList(),
+                        ffo => ffo.FoodOther.OtherId,
+                        filter => filter.Id,
+                        (fr, filter) => fr.Food)
+                    .ToList();
+
+                foodsFiltered = ObtainFoodsDuplicated(foodsFiltered, filters.Where(s => s.Group == "Otros").Count());
+            }
+
+            if (filters.FirstOrDefault(f => f.Group == "Packs") != null)
+                foodsFiltered = foodsFiltered
+                    .Join(FoodsPacks,
+                        f => f.Id,
+                        fp => fp.FoodId,
+                        (f, fp) => new { Food = f, FoodPack = fp })
+                    .Join(filters.Where(s => s.Group == "Packs").ToList(),
+                        ffp => ffp.FoodPack.PackId,
+                        filter => filter.Id,
+                        (fr, filter) => fr.Food)
+                    .ToList();
+
+            return foodsFiltered
+                    .GroupBy(f => f.Id)
+                    .Select(f => f.First())
+                    .ToList();
+        }
+
+        /* Mantiene los objetos que están duplicados una cierta cantidad de veces */
+        private List<Food> ObtainFoodsDuplicated(List<Food> foodsFiltered,int timesDuplicated)
+        {
+            return foodsFiltered
+                    .GroupBy(f => f.Id)
+                    .Where(g => g.Count() == timesDuplicated)
+                    .Select(f => f.First())
+                    .ToList();
+        }
+
+        public FoodDetails GetFoodDetails(int foodId)
+        {
+            Food food = Foods.Single(f => f.Id == foodId);
+
+            FoodDetails foodDetails = new FoodDetails()
+            {
+                Name = food.NameES,
+                Skill = food.Skill
+            };
+
+            foodDetails.Others = Foods
+                .Join(FoodsOthers,
+                    f => f.Id,
+                    fo => fo.FoodId,
+                    (f, fo) => new { Food = f, FoodOther = fo })
+                .Where(ffo => ffo.Food.Id == foodId)
+                .Join(Others,
+                    ffo => ffo.FoodOther.OtherId,
+                    o => o.Id,
+                    (ffo, o) => o)
+                .ToList();
+
+            foodDetails.Packs = Foods
+                .Join(FoodsPacks,
+                    f => f.Id,
+                    fp => fp.FoodId,
+                    (f, fp) => new { Food = f, FoodPack = fp })
+                .Where(ffp => ffp.Food.Id == foodId)
+                .Join(Packs,
+                    ffp => ffp.FoodPack.PackId,
+                    p => p.Id,
+                    (ffp, p) => p)
+                .ToList();
+
+            // REGLA = Las comidas que requieran el juego base o la versión deluxe, sólo mostrarán que requieren el juego base
+            if (foodDetails.Packs.Find(p => p.Id == 1) != null && foodDetails.Packs.Find(p => p.Id == 2) != null)
+                foodDetails.Packs.Remove(foodDetails.Packs.Find(p => p.Id == 2));
+
+            return foodDetails;
+        }
+
+
+        
     }
 }

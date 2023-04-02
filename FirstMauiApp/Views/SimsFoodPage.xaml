@@ -2,17 +2,27 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewModels="clr-namespace:FirstMauiApp.ViewModels"
+             xmlns:local ="clr-namespace:FirstMauiApp"
              x:Class="FirstMauiApp.Views.SimsFoodPage"
              Title="Sims Food"
              xmlns:models="clr-namespace:FirstMauiApp.Models"
              xmlns:syncfusion="clr-namespace:Syncfusion.Maui.DataGrid;assembly=Syncfusion.Maui.DataGrid"
-             xmlns:popup="clr-namespace:Syncfusion.Maui.Popup;assembly=Syncfusion.Maui.Popup">
+             xmlns:popup="clr-namespace:Syncfusion.Maui.Popup;assembly=Syncfusion.Maui.Popup"
+             xmlns:listView="clr-namespace:Syncfusion.Maui.ListView;assembly=Syncfusion.Maui.ListView"
+             xmlns:data="clr-namespace:Syncfusion.Maui.DataSource;assembly=Syncfusion.Maui.DataSource"
+             xmlns:badge="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core">
 
     <ContentPage.BindingContext>
         <viewModels:SimsFoodViewModel/>
     </ContentPage.BindingContext>
-
-    <StackLayout Margin="20" Spacing="10">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:BoolToImageConverter x:Key="BoolToImageConverter"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ScrollView >
+        <StackLayout Margin="20" Spacing="10" >
+            
             <Grid 
                 RowDefinitions="*"
                 ColumnDefinitions="*,*">
@@ -22,7 +32,13 @@
                     WidthRequest="80"
                     HorizontalOptions="Start"
                     Clicked="ClickToShowPopup_Clicked"/>
-                
+
+                <!--<badge:SfBadgeView HorizontalOptions="Center" VerticalOptions="Center" BadgeText="20">
+                    <badge:SfBadgeView.Content>
+                        <Button Text="Primary" WidthRequest="120"  HeightRequest="60"/>
+                    </badge:SfBadgeView.Content>
+                </badge:SfBadgeView>-->
+
                 <Entry 
                     Grid.Column="1"
                     Placeholder="Buscar"
@@ -31,14 +47,17 @@
                     TextChanged="SearchEntry_TextChanged"/>
 
             </Grid>
-            
+
             <syncfusion:SfDataGrid 
                 x:Name="dataGrid"
                 ItemsSource="{Binding Items}"
                 AutoGenerateColumnsMode="None"
                 ColumnWidthMode="Fill"
-                RowHeight="100"
-                SortingMode="Single">
+                HeightRequest="600"
+                SortingMode="Single"
+                SelectionMode="None"
+                QueryRowHeight="dataGrid_QueryRowHeight"
+                CellTapped="OnDataGridCellTapped">
                 <syncfusion:SfDataGrid.DefaultStyle>
                     <syncfusion:DataGridStyle 
                         HeaderRowBackground="{AppThemeBinding Dark=#212529,Light=#f8f9fa}" 
@@ -48,44 +67,216 @@
                         HeaderRowFontAttributes="Bold"
                         GridLineColor="{AppThemeBinding Dark=#373b3e,Light=#dfe0e1}"
                         GridLineStrokeThickness="2"
+                        SelectionBackground="{AppThemeBinding Dark=#1F2226,Light=#ECECEC}"
+                        SelectedRowTextColor="{AppThemeBinding Dark=#ADB5BD,Light=#000}"
+                        CurrentCellBorderWidth="-4"
                         />
                 </syncfusion:SfDataGrid.DefaultStyle>
                 <syncfusion:SfDataGrid.Columns>
                     <syncfusion:DataGridTextColumn 
-                        MappingName="Id" 
-                        HeaderText="ID"
-                        Width="70"/>
+                            MappingName="Id" 
+                            HeaderText="ID"
+                            Width="70"/>
                     <syncfusion:DataGridTextColumn 
-                        MappingName="NameES" 
-                        HeaderText="Nombre"/>
+                            MappingName="NameES" 
+                            HeaderText="Nombre"/>
                     <syncfusion:DataGridTextColumn 
-                        MappingName="Skill" 
-                        HeaderText="Habilidad"
-                        Width="120"
-                        CellTextAlignment="Center"/>
+                            MappingName="Skill" 
+                            HeaderText="Habilidad"
+                            Width="120"
+                            CellTextAlignment="Center"/>
                 </syncfusion:SfDataGrid.Columns>
             </syncfusion:SfDataGrid>
 
-        <popup:SfPopup 
-                x:Name="popup"
-                HeaderTitle="Filtros"
-                ShowCloseButton="True"
-                ShowFooter="True"
-                AcceptButtonText="ACEPTAR"
-                AutoSizeMode="Height"
-                AppearanceMode="OneButton">
-            <popup:SfPopup.ContentTemplate>
-                <DataTemplate>
-                    <Label 
-                        Text="This is the Customized view for SfPopup"
-                        BackgroundColor="SkyBlue"
-                        VerticalTextAlignment="Center"
-                        HorizontalTextAlignment="Center" />
-                    
-                </DataTemplate>
-            </popup:SfPopup.ContentTemplate>
-        </popup:SfPopup>
+            <!--<popup:SfPopup
+                x:Name="LoadingPopup"
+                MinimumHeightRequest="165"
+                StaysOpen="True"
+                ShowHeader="False"
+                IsOpen="False">
+                <popup:SfPopup.ContentTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="75"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <ActivityIndicator 
+                                IsRunning="true"/>
+                            <Label
+                                Grid.Row="1"
+                                Text="Cargando..."
+                                FontSize="16"
+                                FontAttributes="Bold"
+                                HorizontalOptions="Center"
+                                Margin="0,15,0,0"/>
+                        </Grid>
+                    </DataTemplate>
+                </popup:SfPopup.ContentTemplate>
+            </popup:SfPopup>-->
+            
+            <popup:SfPopup 
+                    x:Name="FiltrosPopup"
+                    HeaderTitle="Filtros"
+                    ShowCloseButton="True"
+                    ShowFooter="True"
+                    AcceptButtonText="ACEPTAR"
+                    AutoSizeMode="Both"
+                    AppearanceMode="OneButton"
+                    AcceptCommand="{Binding FoodByFilterCommand}">
+                <popup:SfPopup.ContentTemplate>
+                    <DataTemplate>
+                        <listView:SfListView 
+                            x:Name="listView"
+                            ItemsSource="{Binding Filters}"
+                            ItemSize="30"
+                            SelectionMode="None"
+                            AllowGroupExpandCollapse="True"
+                            GroupHeaderSize="40">
+                            
+                            <listView:SfListView.DataSource>
+                                <data:DataSource>
+                                    <data:DataSource.GroupDescriptors>
+                                        <data:GroupDescriptor PropertyName="Group"/>
+                                    </data:DataSource.GroupDescriptors>
+                                </data:DataSource>
+                            </listView:SfListView.DataSource>
+                            
+                            <listView:SfListView.GroupHeaderTemplate>
+                                <DataTemplate>
+                                    <ViewCell>
+                                        <ViewCell.View>
+                                            <Border
+                                                StrokeShape="RoundRectangle 0,40,0,40"
+                                                StrokeThickness="2">
 
-    </StackLayout>
+                                                <Grid
+                                                    ColumnDefinitions="*,*"
+                                                    BackgroundColor="LightGray">
+
+                                                    <Label
+                                                        Grid.Column="0"
+                                                        Text="{Binding Key}"
+                                                        FontSize="18"
+                                                        FontAttributes="Bold"
+                                                        VerticalOptions="Center"
+                                                        HorizontalOptions="Start"
+                                                        Margin="20,0,0,0"/>
+
+                                                    <Image 
+                                                        Grid.Column="1"
+                                                        HorizontalOptions="End"
+                                                        HeightRequest="10"
+                                                        WidthRequest="10"
+                                                        Margin="0,0,20,0"
+                                                        Source="{Binding IsExpand, Converter={StaticResource BoolToImageConverter}}"
+                                                        VerticalOptions="Center"/>
+
+                                                    
+                                                </Grid>
+
+                                            </Border>
+                                        </ViewCell.View>
+                                    </ViewCell>
+                                </DataTemplate>
+                            </listView:SfListView.GroupHeaderTemplate>
+                            <listView:SfListView.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid ColumnDefinitions="0.2*,*">
+                                        <CheckBox 
+                                            IsChecked="{Binding IsSelected}"
+                                            HorizontalOptions="Center"/>
+                                        <Label 
+                                            Grid.Column="1" 
+                                            Text="{Binding NameES}"
+                                            FontSize="16"
+                                            HorizontalTextAlignment="Start"
+                                            VerticalTextAlignment="Center"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </listView:SfListView.ItemTemplate>
+                        </listView:SfListView>
+
+                    </DataTemplate>
+                </popup:SfPopup.ContentTemplate>
+            </popup:SfPopup>
+
+            <popup:SfPopup 
+                    x:Name="DetailsPopup"
+                    HeaderTitle="Detalle"
+                    ShowCloseButton="True"
+                    ShowFooter="True"
+                    AcceptButtonText="ACEPTAR"
+                    AutoSizeMode="Both"
+                    AppearanceMode="OneButton">
+                <popup:SfPopup.ContentTemplate>
+                    <DataTemplate>
+                        <VerticalStackLayout Spacing="10">
+                            <!-- PRÓXIMAMENTE
+                            <Label 
+                                Text="FOTO"
+                                FontAttributes="Bold"/>-->
+                            <Label
+                                Text="{Binding DetailsName}"
+                                FontSize="18"
+                                FontAttributes="Bold"
+                                Margin="20"/>
+                            <Label
+                                Text="NIVEL DE HABILIDAD REQUERIDO"
+                                FontAttributes="Bold"/>
+                            <Label
+                                Text="{Binding DetailsSkill}"/>
+                            <!--<Label
+                                Text="TAMAÑOS CON PRECIOS E INGREDIENTES"
+                                FontAttributes="Bold"/>-->
+                            <Label
+                                Text="NOTAS"
+                                FontAttributes="Bold"
+                                IsVisible="{Binding IsDetailsOthersVisible}"/>
+                            <Grid
+                                RowDefinitions="*">
+                                <listView:SfListView  
+                                    ItemsSource="{Binding DetailsOthers}"
+                                    SelectionMode ="None"
+                                    AutoFitMode="DynamicHeight"
+                                    IsScrollingEnabled="False"
+                                    IsVisible="{Binding IsDetailsOthersVisible}">
+                                    <listView:SfListView.ItemTemplate>
+                                        <DataTemplate>
+                                            <Label
+                                                Text="{Binding NameES}"
+                                                HorizontalTextAlignment="Start"
+                                                VerticalTextAlignment="Center"/>
+                                        </DataTemplate>
+                                    </listView:SfListView.ItemTemplate>
+                                </listView:SfListView>
+                            </Grid>
+                            <Label
+                                Text="PACKS REQUERIDOS"
+                                FontAttributes="Bold"/>
+                            <Grid
+                                RowDefinitions="*">
+                                <listView:SfListView
+                                    ItemsSource="{Binding DetailsPacks}"
+                                    AutoFitMode="DynamicHeight"
+                                    IsScrollingEnabled="False"
+                                    SelectionMode ="None">
+                                    <listView:SfListView.ItemTemplate>
+                                        <DataTemplate>
+                                            <Label
+                                                Text="{Binding NameES}"
+                                                HorizontalTextAlignment="Start"
+                                                VerticalTextAlignment="Center"/>
+                                        </DataTemplate>
+                                    </listView:SfListView.ItemTemplate>
+                                </listView:SfListView>
+                            </Grid>
+                        </VerticalStackLayout>
+                    </DataTemplate>
+                </popup:SfPopup.ContentTemplate>
+            </popup:SfPopup>
+
+        </StackLayout>
+    </ScrollView>
     
 </ContentPage>
