@@ -26,21 +26,30 @@
             <Grid 
                 RowDefinitions="*"
                 ColumnDefinitions="*,*">
+                <badge:SfBadgeView
+                    HorizontalOptions="Start" 
+                    VerticalOptions="Center" 
+                    MinimumHeightRequest="55"
+                    MinimumWidthRequest="90"
+                    BadgeText="{Binding NumberFilters}">
+                    <badge:SfBadgeView.Content>
                 <Button
                     x:Name="Filters"
                     Text="Filtros"
                     WidthRequest="80"
+                            HeightRequest="40"
                     HorizontalOptions="Start"
                     Clicked="ClickToShowPopup_Clicked"/>
-
-                <!--<badge:SfBadgeView HorizontalOptions="Center" VerticalOptions="Center" BadgeText="20">
-                    <badge:SfBadgeView.Content>
-                        <Button Text="Primary" WidthRequest="120"  HeightRequest="60"/>
                     </badge:SfBadgeView.Content>
-                </badge:SfBadgeView>-->
+
+                    <badge:SfBadgeView.BadgeSettings>
+                        <badge:BadgeSettings Type="Info" BadgeAlignment="Center" Offset="0,0"/>
+                    </badge:SfBadgeView.BadgeSettings>
+                </badge:SfBadgeView>
 
                 <Entry 
                     Grid.Column="1"
+                    HeightRequest="40"
                     Placeholder="Buscar"
                     Text="{Binding Search}"
                     HorizontalTextAlignment="Start"
@@ -230,6 +239,28 @@
                                 Text="TAMAÑOS CON PRECIOS E INGREDIENTES"
                                 FontAttributes="Bold"/>-->
                             <Label
+                                    Text="COMIDAS DEL DÍA"
+                                    TextColor="#212121"
+                                    FontAttributes="Bold"/>
+                                <Grid
+                                    RowDefinitions="*">
+                                    <listView:SfListView
+                                        ItemsSource="{Binding DetailsServingTimes}"
+                                        AutoFitMode="DynamicHeight"
+                                        IsScrollingEnabled="False"
+                                        SelectionMode ="None">
+                                        <listView:SfListView.ItemTemplate>
+                                            <DataTemplate>
+                                                <Label
+                                                Text="{Binding NameES}"
+                                                TextColor="#212121"
+                                                HorizontalTextAlignment="Start"
+                                                VerticalTextAlignment="Center"/>
+                                            </DataTemplate>
+                                        </listView:SfListView.ItemTemplate>
+                                    </listView:SfListView>
+                                </Grid>
+                                <Label
                                 Text="NOTAS"
                                 FontAttributes="Bold"
                                 IsVisible="{Binding IsDetailsOthersVisible}"/>

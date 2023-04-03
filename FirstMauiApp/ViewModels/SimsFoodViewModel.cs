@@ -12,6 +12,7 @@ internal class SimsFoodViewModel : ObservableObject
     #region Tables & Lists
     public ObservableCollection<Food> Items { get; set; } = new();
     public List<Food> FoodsFiltered { get; set; } = new();
+    public string NumberFilters { get; set; } = "";
     public List<Filter> Filters { get; set; }
     public ICommand FoodBySearchCommand { get; set; }
     public ICommand FoodByFilterCommand { get; set; }
@@ -65,12 +66,17 @@ internal class SimsFoodViewModel : ObservableObject
     private void FoodByFilter()
     {
         List<Food> items = App.Database.GetFoods();
-        if (Filters.FirstOrDefault(f => f.IsSelected)!=null)
+        int numberRequestedFilters = 0;
             items = App.Database.GetItemsFilteredByMultiple(Filters.Where(f => f.IsSelected).ToList());
-        
+        if (Filters.FirstOrDefault(f => f.IsSelected) != null) {
+            List<Filter> requestedFilters = Filters.Where(f => f.IsSelected).ToList();
+            items = App.Database.GetItemsFilteredByMultiple(requestedFilters);
+            numberRequestedFilters = requestedFilters.Count;
+        }
+        NumberFilters = numberRequestedFilters != 0 ? numberRequestedFilters.ToString() : "";
         FoodsFiltered = items.ToList();
         ReloadFoodList(items);
-
+        OnPropertyChanged(nameof(NumberFilters));
     }
 
     private void GetFoodDetails(int foodId)
