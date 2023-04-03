@@ -45,8 +45,12 @@ public partial class SimsFoodPage : ContentPage
 
         Food food = (Food)e.RowData;
 
-        if (viewModel.GetFoodDetailsCommand.CanExecute(food.Id))
+        if (food != null && viewModel.GetFoodDetailsCommand.CanExecute(food.Id))
+        {
             viewModel.GetFoodDetailsCommand.Execute(food.Id);
+            DetailsPopup.Show();
+        }
+    }
 
         DetailsPopup.Show();
     }
