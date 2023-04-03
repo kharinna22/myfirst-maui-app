@@ -25,7 +25,7 @@
 
             <Grid
                 RowDefinitions="*"
-                ColumnDefinitions="*,*">
+                ColumnDefinitions="0.5*,0.5*,*">
                 <badge:SfBadgeView
                     HorizontalOptions="Start" 
                     VerticalOptions="Center" 
@@ -47,8 +47,18 @@
                     </badge:SfBadgeView.BadgeSettings>
                 </badge:SfBadgeView>
 
-                <Entry 
+                <Button 
                     Grid.Column="1"
+                    x:Name="RandomFood"
+                    Text="Aleatorio" 
+                    WidthRequest="86.6"
+                    HeightRequest="40"
+                    HorizontalOptions="Start"
+                    IsEnabled="{Binding IsRandomFoodButtonEnabled}"
+                    Clicked="RandomFood_Clicked"/>
+
+                <Entry 
+                    Grid.Column="2"
                     HeightRequest="40"
                     Placeholder="Buscar"
                     Text="{Binding Search}"

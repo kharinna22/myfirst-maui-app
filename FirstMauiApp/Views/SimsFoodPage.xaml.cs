@@ -58,4 +58,12 @@ public partial class SimsFoodPage : ContentPage
         if (viewModel.KeepFiltersCommand.CanExecute(null))
             viewModel.KeepFiltersCommand.Execute(null);
     }
+
+    private void RandomFood_Clicked(object sender, EventArgs e)
+    {
+        SimsFoodViewModel viewModel = (SimsFoodViewModel)this.BindingContext;
+        if (viewModel.RandomFoodDetailsCommand.CanExecute(null))
+            viewModel.RandomFoodDetailsCommand.Execute(null);
+        DetailsPopup.Show();
+    }
 }

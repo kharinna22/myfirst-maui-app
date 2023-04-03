@@ -15,9 +15,11 @@ internal class SimsFoodViewModel : ObservableObject
     public string NumberFilters { get; set; } = "";
     public List<Filter> Filters { get; set; }
     private List<Filter> Saved { get; set; } = new();
+    public bool IsRandomFoodButtonEnabled { get; set; } = true;
     public ICommand FoodBySearchCommand { get; set; }
     public ICommand FoodByFilterCommand { get; set; }
     public ICommand KeepFiltersCommand { get; set; }
+    public ICommand RandomFoodDetailsCommand { get; set; }
     #endregion
 
     #region Food Details
@@ -35,6 +37,7 @@ internal class SimsFoodViewModel : ObservableObject
         FoodBySearchCommand = new RelayCommand<string>(FoodBySearch);
         FoodByFilterCommand = new RelayCommand(FoodByFilter);
         KeepFiltersCommand = new RelayCommand(KeepFilters);
+        RandomFoodDetailsCommand = new RelayCommand(RandomFoodDetails);
         GetFoodDetailsCommand = new RelayCommand<int>(GetFoodDetails);
         LoadData();
     }
@@ -69,10 +72,17 @@ internal class SimsFoodViewModel : ObservableObject
         LoadTable();
     }
 
+    private void UpdateRandomFoodButton()
+    { 
+        IsRandomFoodButtonEnabled = Items.Count > 0;
+        OnPropertyChanged(nameof(IsRandomFoodButtonEnabled));
+    }
+
     private void FoodBySearch(string search)
     {
         List<Food> items = App.Database.GetItemsFiltered(search,FoodsFiltered);
         ReloadFoodList(items);
+        UpdateRandomFoodButton();
     }
 
     private void FoodByFilter()
@@ -89,6 +99,7 @@ internal class SimsFoodViewModel : ObservableObject
         FoodsFiltered = items.ToList();
         ReloadFoodList(items);
         OnPropertyChanged(nameof(NumberFilters));
+        UpdateRandomFoodButton();
     }
 
     private void GetFoodDetails(int foodId)
@@ -123,6 +134,14 @@ internal class SimsFoodViewModel : ObservableObject
         Filters.AddRange(Saved.Select(f => (Filter)f.Clone()));
 
         OnPropertyChanged(nameof(Filters));
+    }
+
+    private void RandomFoodDetails()
+    {
+        if(FoodsFiltered.Count > 0) { 
+            int randomPosition = new Random().Next(0, FoodsFiltered.Count);
+            GetFoodDetails(FoodsFiltered.ElementAt(randomPosition).Id);
+        }
     }
 
     
