@@ -52,6 +52,10 @@ public partial class SimsFoodPage : ContentPage
         }
     }
 
-        DetailsPopup.Show();
+    private void FiltrosPopup_Closed(object sender, EventArgs e)
+    {
+        SimsFoodViewModel viewModel = (SimsFoodViewModel)this.BindingContext;
+        if (viewModel.KeepFiltersCommand.CanExecute(null))
+            viewModel.KeepFiltersCommand.Execute(null);
     }
 }

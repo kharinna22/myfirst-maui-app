@@ -22,8 +22,8 @@
     </ContentPage.Resources>
     <ScrollView >
         <StackLayout Margin="20" Spacing="10" >
-            
-            <Grid 
+
+            <Grid
                 RowDefinitions="*"
                 ColumnDefinitions="*,*">
                 <badge:SfBadgeView
@@ -33,13 +33,13 @@
                     MinimumWidthRequest="90"
                     BadgeText="{Binding NumberFilters}">
                     <badge:SfBadgeView.Content>
-                <Button
-                    x:Name="Filters"
-                    Text="Filtros"
-                    WidthRequest="80"
+                        <Button 
+                            x:Name="Filters"
+                            Text="Filtros" 
+                            WidthRequest="80"
                             HeightRequest="40"
-                    HorizontalOptions="Start"
-                    Clicked="ClickToShowPopup_Clicked"/>
+                            HorizontalOptions="Start"
+                            Clicked="ClickToShowPopup_Clicked"/>
                     </badge:SfBadgeView.Content>
 
                     <badge:SfBadgeView.BadgeSettings>
@@ -124,14 +124,15 @@
             </popup:SfPopup>-->
             
             <popup:SfPopup 
-                    x:Name="FiltrosPopup"
-                    HeaderTitle="Filtros"
-                    ShowCloseButton="True"
-                    ShowFooter="True"
-                    AcceptButtonText="ACEPTAR"
-                    AutoSizeMode="Both"
-                    AppearanceMode="OneButton"
-                    AcceptCommand="{Binding FoodByFilterCommand}">
+                x:Name="FiltrosPopup"
+                HeaderTitle="Filtros"
+                ShowCloseButton="True"
+                ShowFooter="True"
+                AcceptButtonText="FILTRAR"
+                AutoSizeMode="Both"
+                AppearanceMode="OneButton"
+                Closed="FiltrosPopup_Closed"
+                AcceptCommand="{Binding FoodByFilterCommand}">
                 <popup:SfPopup.ContentTemplate>
                     <DataTemplate>
                         <listView:SfListView 
@@ -213,12 +214,12 @@
             </popup:SfPopup>
 
             <popup:SfPopup 
-                    x:Name="DetailsPopup"
-                    ShowCloseButton="True"
-                    ShowFooter="True"
-                    AcceptButtonText="ACEPTAR"
-                    AutoSizeMode="Both"
-                    AppearanceMode="OneButton">
+                x:Name="DetailsPopup"
+                ShowCloseButton="True"
+                ShowFooter="True"
+                AcceptButtonText="ACEPTAR"
+                AutoSizeMode="Both"
+                AppearanceMode="OneButton">
 
                 <popup:SfPopup.HeaderTemplate>
                     <DataTemplate>
@@ -237,23 +238,23 @@
                         <ScrollView>
                             <VerticalStackLayout 
                                 Spacing="10">
-                            <!-- PRÓXIMAMENTE
-                            <Label 
-                                Text="FOTO"
+                                <!-- PRÓXIMAMENTE
+                                <Label 
+                                    Text="FOTO"
                                     TextColor="#212121"
-                                FontAttributes="Bold"/>-->
-                            <Label
-                                Text="NIVEL DE HABILIDAD REQUERIDO"
+                                    FontAttributes="Bold"/>-->
+                                <Label
+                                    Text="NIVEL DE HABILIDAD REQUERIDO"
                                     TextColor="#212121"
-                                FontAttributes="Bold"/>
-                            <Label
+                                    FontAttributes="Bold"/>
+                                <Label
                                     Text="{Binding DetailsSkill}"
                                     TextColor="#212121"/>
-                            <!--<Label
-                                Text="TAMAÑOS CON PRECIOS E INGREDIENTES"
+                                <!--<Label
+                                    Text="TAMAÑOS CON PRECIOS E INGREDIENTES"
                                     TextColor="#212121"
-                                FontAttributes="Bold"/>-->
-                            <Label
+                                    FontAttributes="Bold"/>-->
+                                <Label
                                     Text="COMIDAS DEL DÍA"
                                     TextColor="#212121"
                                     FontAttributes="Bold"/>
@@ -276,52 +277,52 @@
                                     </listView:SfListView>
                                 </Grid>
                                 <Label
-                                Text="NOTAS"
+                                    Text="NOTAS"
                                     TextColor="#212121"
-                                FontAttributes="Bold"
-                                IsVisible="{Binding IsDetailsOthersVisible}"/>
-                            <Grid
-                                RowDefinitions="*">
-                                <listView:SfListView  
-                                    ItemsSource="{Binding DetailsOthers}"
-                                    SelectionMode ="None"
-                                    AutoFitMode="DynamicHeight"
-                                    IsScrollingEnabled="False"
-                                    IsVisible="{Binding IsDetailsOthersVisible}">
-                                    <listView:SfListView.ItemTemplate>
-                                        <DataTemplate>
-                                            <Label
-                                                Text="{Binding NameES}"
+                                    FontAttributes="Bold"
+                                    IsVisible="{Binding IsDetailsOthersVisible}"/>
+                                <Grid
+                                    RowDefinitions="*">
+                                    <listView:SfListView  
+                                        ItemsSource="{Binding DetailsOthers}"
+                                        SelectionMode ="None"
+                                        AutoFitMode="DynamicHeight"
+                                        IsScrollingEnabled="False"
+                                        IsVisible="{Binding IsDetailsOthersVisible}">
+                                        <listView:SfListView.ItemTemplate>
+                                            <DataTemplate>
+                                                <Label
+                                                    Text="{Binding NameES}"
                                                     TextColor="#212121"
-                                                HorizontalTextAlignment="Start"
-                                                VerticalTextAlignment="Center"/>
-                                        </DataTemplate>
-                                    </listView:SfListView.ItemTemplate>
-                                </listView:SfListView>
-                            </Grid>
-                            <Label
-                                Text="PACKS REQUERIDOS"
+                                                    HorizontalTextAlignment="Start"
+                                                    VerticalTextAlignment="Center"/>
+                                            </DataTemplate>
+                                        </listView:SfListView.ItemTemplate>
+                                    </listView:SfListView>
+                                </Grid>
+                                <Label
+                                    Text="PACKS REQUERIDOS"
                                     TextColor="#212121"
-                                FontAttributes="Bold"/>
-                            <Grid
-                                RowDefinitions="*">
-                                <listView:SfListView
-                                    ItemsSource="{Binding DetailsPacks}"
-                                    AutoFitMode="DynamicHeight"
-                                    IsScrollingEnabled="False"
-                                    SelectionMode ="None">
-                                    <listView:SfListView.ItemTemplate>
-                                        <DataTemplate>
-                                            <Label
+                                    FontAttributes="Bold"/>
+                                <Grid
+                                    RowDefinitions="*">
+                                    <listView:SfListView
+                                        ItemsSource="{Binding DetailsPacks}"
+                                        AutoFitMode="DynamicHeight"
+                                        IsScrollingEnabled="False"
+                                        SelectionMode ="None">
+                                        <listView:SfListView.ItemTemplate>
+                                            <DataTemplate>
+                                                <Label
                                                 Text="{Binding NameES}"
                                                 TextColor="#212121"
                                                 HorizontalTextAlignment="Start"
                                                 VerticalTextAlignment="Center"/>
-                                        </DataTemplate>
-                                    </listView:SfListView.ItemTemplate>
-                                </listView:SfListView>
-                            </Grid>
-                        </VerticalStackLayout>
+                                            </DataTemplate>
+                                        </listView:SfListView.ItemTemplate>
+                                    </listView:SfListView>
+                                </Grid>
+                            </VerticalStackLayout>
                         </ScrollView>
                     </DataTemplate>
                 </popup:SfPopup.ContentTemplate>

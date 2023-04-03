@@ -11,11 +11,13 @@ internal class SimsFoodViewModel : ObservableObject
 {
     #region Tables & Lists
     public ObservableCollection<Food> Items { get; set; } = new();
-    public List<Food> FoodsFiltered { get; set; } = new();
+    private List<Food> FoodsFiltered { get; set; } = new();
     public string NumberFilters { get; set; } = "";
     public List<Filter> Filters { get; set; }
+    private List<Filter> Saved { get; set; } = new();
     public ICommand FoodBySearchCommand { get; set; }
     public ICommand FoodByFilterCommand { get; set; }
+    public ICommand KeepFiltersCommand { get; set; }
     #endregion
 
     #region Food Details
@@ -32,6 +34,7 @@ internal class SimsFoodViewModel : ObservableObject
     {
         FoodBySearchCommand = new RelayCommand<string>(FoodBySearch);
         FoodByFilterCommand = new RelayCommand(FoodByFilter);
+        KeepFiltersCommand = new RelayCommand(KeepFilters);
         GetFoodDetailsCommand = new RelayCommand<int>(GetFoodDetails);
         LoadData();
     }
@@ -51,9 +54,18 @@ internal class SimsFoodViewModel : ObservableObject
         FoodsFiltered = items.ToList();
     }
 
+    private void CopyFilters()
+    {
+        Saved = new(Filters.Count);
+        Saved.AddRange(Filters.Select(f => (Filter)f.Clone()));
+
+        OnPropertyChanged(nameof(Saved));
+    }
+
     private void LoadData()
     {
         Filters = App.Database.GetFilters();
+        CopyFilters();
         LoadTable();
     }
 
@@ -67,7 +79,7 @@ internal class SimsFoodViewModel : ObservableObject
     {
         List<Food> items = App.Database.GetFoods();
         int numberRequestedFilters = 0;
-            items = App.Database.GetItemsFilteredByMultiple(Filters.Where(f => f.IsSelected).ToList());
+        CopyFilters();
         if (Filters.FirstOrDefault(f => f.IsSelected) != null) {
             List<Filter> requestedFilters = Filters.Where(f => f.IsSelected).ToList();
             items = App.Database.GetItemsFilteredByMultiple(requestedFilters);
@@ -93,7 +105,6 @@ internal class SimsFoodViewModel : ObservableObject
             });
 
         DetailsOthers = foodDetails.Others.ToList();
-
         IsDetailsOthersVisible = DetailsOthers.Count > 0;
 
         DetailsPacks = foodDetails.Packs.ToList();
@@ -104,6 +115,14 @@ internal class SimsFoodViewModel : ObservableObject
         OnPropertyChanged(nameof(DetailsOthers));
         OnPropertyChanged(nameof(IsDetailsOthersVisible));
         OnPropertyChanged(nameof(DetailsPacks));
+    }
+
+    private void KeepFilters()
+    {
+        Filters = new(Saved.Count);
+        Filters.AddRange(Saved.Select(f => (Filter)f.Clone()));
+
+        OnPropertyChanged(nameof(Filters));
     }
 
     

@@ -6,12 +6,14 @@ using System.Threading.Tasks;
 
 namespace FirstMauiApp.Models
 {
-    public class Filter
+    public class Filter : ICloneable
     {
         public string Group { get; set; }
         public int Id { get; set; }
         public string NameEN { get; set; }
         public string NameES { get; set; }
         public bool IsSelected { get; set; }
+
+        public object Clone() { return this.MemberwiseClone(); }
     }
 }
