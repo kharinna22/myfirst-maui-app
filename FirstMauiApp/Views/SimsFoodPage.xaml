@@ -54,7 +54,6 @@
                     Text="{Binding Search}"
                     HorizontalTextAlignment="Start"
                     TextChanged="SearchEntry_TextChanged"/>
-
             </Grid>
 
             <syncfusion:SfDataGrid 
@@ -166,6 +165,7 @@
                                                     <Label
                                                         Grid.Column="0"
                                                         Text="{Binding Key}"
+                                                        TextColor="#212121"
                                                         FontSize="18"
                                                         FontAttributes="Bold"
                                                         VerticalOptions="Center"
@@ -194,10 +194,12 @@
                                     <Grid ColumnDefinitions="0.2*,*">
                                         <CheckBox 
                                             IsChecked="{Binding IsSelected}"
-                                            HorizontalOptions="Center"/>
+                                            HorizontalOptions="Center"
+                                            Color="{AppThemeBinding Dark={StaticResource Primary}}"/>
                                         <Label 
                                             Grid.Column="1" 
                                             Text="{Binding NameES}"
+                                            TextColor="#212121"
                                             FontSize="16"
                                             HorizontalTextAlignment="Start"
                                             VerticalTextAlignment="Center"/>
@@ -212,31 +214,44 @@
 
             <popup:SfPopup 
                     x:Name="DetailsPopup"
-                    HeaderTitle="Detalle"
                     ShowCloseButton="True"
                     ShowFooter="True"
                     AcceptButtonText="ACEPTAR"
                     AutoSizeMode="Both"
                     AppearanceMode="OneButton">
+
+                <popup:SfPopup.HeaderTemplate>
+                    <DataTemplate>
+                        <Label 
+                            Text="{Binding DetailsName}" 
+                            FontAttributes="Bold"
+                            FontSize="18"
+                            TextColor="#212121"
+                            HorizontalTextAlignment="Start"
+                            VerticalTextAlignment="Center"/>
+                    </DataTemplate>
+                </popup:SfPopup.HeaderTemplate>
+
                 <popup:SfPopup.ContentTemplate>
                     <DataTemplate>
-                        <VerticalStackLayout Spacing="10">
+                        <ScrollView>
+                            <VerticalStackLayout 
+                                Spacing="10">
                             <!-- PRÓXIMAMENTE
                             <Label 
                                 Text="FOTO"
+                                    TextColor="#212121"
                                 FontAttributes="Bold"/>-->
                             <Label
-                                Text="{Binding DetailsName}"
-                                FontSize="18"
-                                FontAttributes="Bold"
-                                Margin="20"/>
-                            <Label
                                 Text="NIVEL DE HABILIDAD REQUERIDO"
+                                    TextColor="#212121"
                                 FontAttributes="Bold"/>
                             <Label
-                                Text="{Binding DetailsSkill}"/>
+                                    Text="{Binding DetailsSkill}"
+                                    TextColor="#212121"/>
                             <!--<Label
                                 Text="TAMAÑOS CON PRECIOS E INGREDIENTES"
+                                    TextColor="#212121"
                                 FontAttributes="Bold"/>-->
                             <Label
                                     Text="COMIDAS DEL DÍA"
@@ -262,6 +277,7 @@
                                 </Grid>
                                 <Label
                                 Text="NOTAS"
+                                    TextColor="#212121"
                                 FontAttributes="Bold"
                                 IsVisible="{Binding IsDetailsOthersVisible}"/>
                             <Grid
@@ -276,6 +292,7 @@
                                         <DataTemplate>
                                             <Label
                                                 Text="{Binding NameES}"
+                                                    TextColor="#212121"
                                                 HorizontalTextAlignment="Start"
                                                 VerticalTextAlignment="Center"/>
                                         </DataTemplate>
@@ -284,6 +301,7 @@
                             </Grid>
                             <Label
                                 Text="PACKS REQUERIDOS"
+                                    TextColor="#212121"
                                 FontAttributes="Bold"/>
                             <Grid
                                 RowDefinitions="*">
@@ -296,6 +314,7 @@
                                         <DataTemplate>
                                             <Label
                                                 Text="{Binding NameES}"
+                                                TextColor="#212121"
                                                 HorizontalTextAlignment="Start"
                                                 VerticalTextAlignment="Center"/>
                                         </DataTemplate>
@@ -303,6 +322,7 @@
                                 </listView:SfListView>
                             </Grid>
                         </VerticalStackLayout>
+                        </ScrollView>
                     </DataTemplate>
                 </popup:SfPopup.ContentTemplate>
             </popup:SfPopup>
