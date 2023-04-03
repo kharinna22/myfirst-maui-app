@@ -499,6 +499,19 @@ namespace FirstMauiApp.Data
                 Skill = food.Skill
             };
 
+            foodDetails.ServingTimes = Foods
+                .Join(FoodsServingTimes,
+                    f => f.Id,
+                    fst => fst.FoodId,
+                    (f, fst) => new { Food = f, FoodServingTime = fst })
+                .Where(ffst => ffst.Food.Id == foodId)
+                .Join(ServingTimes,
+                    ffst => ffst.FoodServingTime.ServingTimeId,
+                    st => st.Id,
+                    (ffst, st) => st)
+                .ToList();
+
+
             foodDetails.Others = Foods
                 .Join(FoodsOthers,
                     f => f.Id,

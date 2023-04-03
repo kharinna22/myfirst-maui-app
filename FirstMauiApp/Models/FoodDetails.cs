@@ -13,6 +13,7 @@ namespace FirstMauiApp.Models
         public string Name { get; set; }
         public int Skill { get; set; }
         public List<RecipesDetails> Recipes { get; set; }
+        public List<ServingTime> ServingTimes { get; set; }
         public List<Other> Others { get; set; }
         public List<Pack> Packs { get; set; }
     }

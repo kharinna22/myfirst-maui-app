@@ -20,6 +20,7 @@ internal class SimsFoodViewModel : ObservableObject
     #region Food Details
     public string DetailsName { get; set; }
     public string DetailsSkill { get; set; }
+    public List<ServingTime> DetailsServingTimes { get; set; } = new();
     public List<Other> DetailsOthers { get; set; } = new();
     public bool IsDetailsOthersVisible { get; set; }
     public List<Pack> DetailsPacks { get; set; } = new();
@@ -77,6 +78,14 @@ internal class SimsFoodViewModel : ObservableObject
         FoodDetails foodDetails = App.Database.GetFoodDetails(foodId);
         DetailsName = foodDetails.Name;
         DetailsSkill = foodDetails.Skill.ToString();
+
+        DetailsServingTimes = foodDetails.ServingTimes.ToList();
+        if (DetailsServingTimes.Count <= 0)
+            DetailsServingTimes.Add(new ServingTime()
+            {
+                NameES = "Cualquiera"
+            });
+
         DetailsOthers = foodDetails.Others.ToList();
 
         IsDetailsOthersVisible = DetailsOthers.Count > 0;
@@ -85,6 +94,7 @@ internal class SimsFoodViewModel : ObservableObject
         
         OnPropertyChanged(nameof(DetailsName));
         OnPropertyChanged(nameof(DetailsSkill));
+        OnPropertyChanged(nameof(DetailsServingTimes));
         OnPropertyChanged(nameof(DetailsOthers));
         OnPropertyChanged(nameof(IsDetailsOthersVisible));
         OnPropertyChanged(nameof(DetailsPacks));
