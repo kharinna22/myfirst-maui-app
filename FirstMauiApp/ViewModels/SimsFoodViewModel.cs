@@ -13,7 +13,7 @@ internal class SimsFoodViewModel : ObservableObject
     public ObservableCollection<Food> Items { get; set; } = new();
     private List<Food> FoodsFiltered { get; set; } = new();
     public string NumberFilters { get; set; } = "";
-    public List<Filter> Filters { get; set; }
+    public List<Filter> Filters { get; set; } = new();
     private List<Filter> Saved { get; set; } = new();
     public bool IsRandomFoodButtonEnabled { get; set; } = true;
     public ICommand FoodBySearchCommand { get; set; }
@@ -67,10 +67,20 @@ internal class SimsFoodViewModel : ObservableObject
         OnPropertyChanged(nameof(Saved));
     }
 
-    private void LoadData()
+    public void LoadFilters()
     {
+        if (Filters.Count < 89)
+        {
         Filters = App.Database.GetFilters();
         CopyFilters();
+
+            OnPropertyChanged(nameof(Filters));
+        }
+    }
+
+    private void LoadData()
+    {
+        LoadFilters();
         LoadTable();
     }
 
@@ -149,6 +159,11 @@ internal class SimsFoodViewModel : ObservableObject
             int randomPosition = new Random().Next(0, FoodsFiltered.Count);
             GetFoodDetails(FoodsFiltered.ElementAt(randomPosition).Id);
         }
+    }
+
+    public bool VerifyLoading()
+    {
+        return App.Database.IsLoaded();
     }
 
     

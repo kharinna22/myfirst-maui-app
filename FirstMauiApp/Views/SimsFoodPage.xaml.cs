@@ -1,4 +1,6 @@
 using System.Collections.ObjectModel;
+using CommunityToolkit.Maui.Alerts;
+using CommunityToolkit.Maui.Core;
 using FirstMauiApp.Data;
 using FirstMauiApp.Models;
 using FirstMauiApp.ViewModels;
@@ -11,9 +13,16 @@ namespace FirstMauiApp.Views;
 
 public partial class SimsFoodPage : ContentPage
 {
+    private int foodId = 0;
 	public SimsFoodPage()
 	{
 		InitializeComponent();
+        SimsFoodViewModel viewModel = (SimsFoodViewModel)this.BindingContext;
+        if (!viewModel.VerifyLoading())
+        {
+            LoadingPopup.Show();
+            return;
+        }
     }
 
     private void SearchEntry_TextChanged(object sender, TextChangedEventArgs e)
@@ -26,6 +35,8 @@ public partial class SimsFoodPage : ContentPage
 
     private void ClickToShowPopup_Clicked(object sender, EventArgs e)
     {
+        SimsFoodViewModel viewModel = (SimsFoodViewModel)this.BindingContext;
+        viewModel.LoadFilters();
         FiltrosPopup.Show();
     }
 
@@ -39,11 +50,23 @@ public partial class SimsFoodPage : ContentPage
         }
     }
 
+    async public static Task Wait(int intervalo = 500)
+    {
+        await Task.Delay(intervalo);
+    }
+
     private void OnDataGridCellTapped(object sender, DataGridCellTappedEventArgs e)
     {
         SimsFoodViewModel viewModel = (SimsFoodViewModel)this.BindingContext;
 
         Food food = (Food)e.RowData;
+
+        if (!viewModel.VerifyLoading())
+        {
+            foodId = food.Id;
+            LoadingPopup.Show();
+            return;
+        }
 
         if (food != null && viewModel.GetFoodDetailsCommand.CanExecute(food.Id))
         {
@@ -62,8 +85,51 @@ public partial class SimsFoodPage : ContentPage
     private void RandomFood_Clicked(object sender, EventArgs e)
     {
         SimsFoodViewModel viewModel = (SimsFoodViewModel)this.BindingContext;
-        if (viewModel.RandomFoodDetailsCommand.CanExecute(null))
+
+        if (viewModel.VerifyLoading() && viewModel.RandomFoodDetailsCommand.CanExecute(null))
+        {
             viewModel.RandomFoodDetailsCommand.Execute(null);
         DetailsPopup.Show();
+    }
+}
+
+    private async void LoadingPopup_Opened(object sender, EventArgs e)
+    {
+        await Wait(2500);
+
+        SimsFoodViewModel viewModel = (SimsFoodViewModel)this.BindingContext;
+        int counter = 0;
+        while (true) {
+
+            if(counter > 6)
+            {
+                await App.Database.Init();
+                counter = 0;
+            }
+
+            if (viewModel.VerifyLoading())
+            {
+                LoadingPopup.IsOpen = false;
+                return;
+            }
+
+            CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+            IToast toast = Toast.Make($"CARGANDO {App.Database.IsLoading()}", ToastDuration.Long, 14);
+            await toast.Show(cancellationTokenSource.Token);
+
+            await Wait(10000);
+            counter++;
+        }
+
+    }
+
+    private void LoadingPopup_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+    {
+        SimsFoodViewModel viewModel = (SimsFoodViewModel)this.BindingContext;
+        if (foodId != 0 && viewModel.GetFoodDetailsCommand.CanExecute(foodId))
+        {
+            viewModel.GetFoodDetailsCommand.Execute(foodId);
+            DetailsPopup.Show();
+        }
     }
 }

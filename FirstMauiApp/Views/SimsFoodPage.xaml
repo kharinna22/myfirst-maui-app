@@ -106,12 +106,13 @@
                 </syncfusion:SfDataGrid.Columns>
             </syncfusion:SfDataGrid>
 
-            <!--<popup:SfPopup
+            <popup:SfPopup
                 x:Name="LoadingPopup"
                 MinimumHeightRequest="165"
-                StaysOpen="True"
                 ShowHeader="False"
-                IsOpen="False">
+                StaysOpen="True"
+                Opened="LoadingPopup_Opened"
+                Closing="LoadingPopup_Closing">
                 <popup:SfPopup.ContentTemplate>
                     <DataTemplate>
                         <Grid>
@@ -120,10 +121,12 @@
                                 <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
                             <ActivityIndicator 
-                                IsRunning="true"/>
+                                IsRunning="true"
+                                Color="{StaticResource Primary}"/>
                             <Label
                                 Grid.Row="1"
                                 Text="Cargando..."
+                                TextColor="#212121"
                                 FontSize="16"
                                 FontAttributes="Bold"
                                 HorizontalOptions="Center"
@@ -131,7 +134,7 @@
                         </Grid>
                     </DataTemplate>
                 </popup:SfPopup.ContentTemplate>
-            </popup:SfPopup>-->
+            </popup:SfPopup>
             
             <popup:SfPopup 
                 x:Name="FiltrosPopup"

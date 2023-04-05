@@ -14,19 +14,18 @@ namespace FirstMauiApp.Data
     {
         private SQLiteAsyncConnection Database;
         /* Listas estáticas ya que se espera sólo lectura */
-        private List<Food> Foods;
-        private List<Size> Sizes;
-        private List<Ingredient> Ingredients;
-        private List<ServingTime> ServingTimes;
-        private List<Other> Others;
-        private List<Pack> Packs;
-        private List<Recipe> Recipes;
-        private List<Component> Components;
-        private List<ComponentIngredient> ComponentsIngredients;
-        private List<FoodServingTime> FoodsServingTimes;
-        private List<FoodOther> FoodsOthers;
-        private List<FoodPack> FoodsPacks;
-        List<Filter> Filters;
+        private List<Food> Foods = new ();
+        private List<Size> Sizes = new();
+        private List<Ingredient> Ingredients = new();
+        private List<ServingTime> ServingTimes = new();
+        private List<Other> Others = new();
+        private List<Pack> Packs = new();
+        private List<Recipe> Recipes = new();
+        private List<Component> Components = new();
+        private List<ComponentIngredient> ComponentsIngredients = new();
+        private List<FoodServingTime> FoodsServingTimes = new();
+        private List<FoodOther> FoodsOthers = new();
+        private List<FoodPack> FoodsPacks = new();
 
         public RecipesDatabase() { }
 
@@ -58,8 +57,9 @@ namespace FirstMauiApp.Data
         private async Task LoadDatabaseAsync()
         {
             // CARGAR FOODS
-            if(await Database.Table<Food>().CountAsync() == 0) 
+            if(await Database.Table<Food>().CountAsync() < 150) 
             {
+                await Database.DeleteAllAsync<Food>();
                 using var fileStream = await FileSystem.OpenAppPackageFileAsync("Foods.csv");
                 using var reader = new StreamReader(fileStream, Encoding.Latin1);
                 var contents = reader.ReadToEnd();
@@ -89,8 +89,9 @@ namespace FirstMauiApp.Data
             Foods = await Database.Table<Food>().OrderBy(f => f.NameES).ToListAsync();
 
             // CARGAR SIZES
-            if (await Database.Table<Size>().CountAsync() == 0)
+            if (await Database.Table<Size>().CountAsync() < 3)
             {
+                await Database.DeleteAllAsync<Size>();
                 using var fileStream = await FileSystem.OpenAppPackageFileAsync("Sizes.csv");
                 using var reader = new StreamReader(fileStream, Encoding.Latin1);
                 var contents = reader.ReadToEnd();
@@ -117,8 +118,9 @@ namespace FirstMauiApp.Data
             Sizes = await Database.Table<Size>().ToListAsync();
 
             // CARGAR INGREDIENTS
-            if (await Database.Table<Ingredient>().CountAsync() == 0)
+            if (await Database.Table<Ingredient>().CountAsync() < 64)
             {
+                await Database.DeleteAllAsync<Ingredient>();
                 using var fileStream = await FileSystem.OpenAppPackageFileAsync("Ingredients.csv");
                 using var reader = new StreamReader(fileStream, Encoding.Latin1);
                 var contents = reader.ReadToEnd();
@@ -146,8 +148,9 @@ namespace FirstMauiApp.Data
             Ingredients = Ingredients.OrderBy(i => i.NameES).ToList();
 
             // CARGAR SERVING TIMES
-            if (await Database.Table<ServingTime>().CountAsync() == 0)
+            if (await Database.Table<ServingTime>().CountAsync() < 4)
             {
+                await Database.DeleteAllAsync<ServingTime>();
                 using var fileStream = await FileSystem.OpenAppPackageFileAsync("ServingTimes.csv");
                 using var reader = new StreamReader(fileStream, Encoding.Latin1);
                 var contents = reader.ReadToEnd();
@@ -174,8 +177,9 @@ namespace FirstMauiApp.Data
             ServingTimes = await Database.Table<ServingTime>().ToListAsync();
 
             // CARGAR OTHERS
-            if (await Database.Table<Other>().CountAsync() == 0)
+            if (await Database.Table<Other>().CountAsync() < 2)
             {
+                await Database.DeleteAllAsync<Other>();
                 using var fileStream = await FileSystem.OpenAppPackageFileAsync("Others.csv");
                 using var reader = new StreamReader(fileStream, Encoding.Latin1);
                 var contents = reader.ReadToEnd();
@@ -202,8 +206,9 @@ namespace FirstMauiApp.Data
             Others = await Database.Table<Other>().ToListAsync();
 
             // CARGAR PACKS
-            if (await Database.Table<Pack>().CountAsync() == 0)
+            if (await Database.Table<Pack>().CountAsync() < 16)
             {
+                await Database.DeleteAllAsync<Pack>();
                 using var fileStream = await FileSystem.OpenAppPackageFileAsync("Packs.csv");
                 using var reader = new StreamReader(fileStream, Encoding.Latin1);
                 var contents = reader.ReadToEnd();
@@ -223,8 +228,9 @@ namespace FirstMauiApp.Data
             Packs = await Database.Table<Pack>().ToListAsync();
 
             // CARGAR RECIPES
-            if (await Database.Table<Recipe>().CountAsync() == 0)
+            if (await Database.Table<Recipe>().CountAsync() < 334)
             {
+                await Database.DeleteAllAsync<Recipe>();
                 using var fileStream = await FileSystem.OpenAppPackageFileAsync("Recipes.csv");
                 using var reader = new StreamReader(fileStream, Encoding.Latin1);
                 var contents = reader.ReadToEnd();
@@ -252,8 +258,9 @@ namespace FirstMauiApp.Data
             Recipes = await Database.Table<Recipe>().ToListAsync();
 
             // CARGAR COMPONENTS
-            if (await Database.Table<Component>().CountAsync() == 0)
+            if (await Database.Table<Component>().CountAsync() < 731)
             {
+                await Database.DeleteAllAsync<Component>();
                 using var fileStream = await FileSystem.OpenAppPackageFileAsync("Components.csv");
                 using var reader = new StreamReader(fileStream, Encoding.Latin1);
                 var contents = reader.ReadToEnd();
@@ -279,8 +286,9 @@ namespace FirstMauiApp.Data
             Components = await Database.Table<Component>().ToListAsync();
 
             // CARGAR COMPONENTINGREDIENT
-            if (await Database.Table<ComponentIngredient>().CountAsync() == 0)
+            if (await Database.Table<ComponentIngredient>().CountAsync() < 768)
             {
+                await Database.DeleteAllAsync<ComponentIngredient>();
                 using var fileStream = await FileSystem.OpenAppPackageFileAsync("Components_Ingredients.csv");
                 using var reader = new StreamReader(fileStream, Encoding.Latin1);
                 var contents = reader.ReadToEnd();
@@ -307,8 +315,9 @@ namespace FirstMauiApp.Data
             ComponentsIngredients = await Database.Table<ComponentIngredient>().ToListAsync();
 
             // CARGAR FOODSERVINGTIME
-            if (await Database.Table<FoodServingTime>().CountAsync() == 0)
+            if (await Database.Table<FoodServingTime>().CountAsync() < 102)
             {
+                await Database.DeleteAllAsync<FoodServingTime>();
                 using var fileStream = await FileSystem.OpenAppPackageFileAsync("Foods_ServingTimes.csv");
                 using var reader = new StreamReader(fileStream, Encoding.Latin1);
                 var contents = reader.ReadToEnd();
@@ -328,8 +337,9 @@ namespace FirstMauiApp.Data
             FoodsServingTimes = await Database.Table<FoodServingTime>().ToListAsync();
 
             // CARGAR FOODOTHER
-            if (await Database.Table<FoodOther>().CountAsync() == 0)
+            if (await Database.Table<FoodOther>().CountAsync() < 153)
             {
+                await Database.DeleteAllAsync<FoodOther>();
                 using var fileStream = await FileSystem.OpenAppPackageFileAsync("Foods_Others.csv");
                 using var reader = new StreamReader(fileStream, Encoding.Latin1);
                 var contents = reader.ReadToEnd();
@@ -349,8 +359,9 @@ namespace FirstMauiApp.Data
             FoodsOthers = await Database.Table<FoodOther>().ToListAsync();
 
             // CARGAR FOODPACK
-            if (await Database.Table<FoodPack>().CountAsync() == 0)
+            if (await Database.Table<FoodPack>().CountAsync() < 203)
             {
+                await Database.DeleteAllAsync<FoodPack>();
                 using var fileStream = await FileSystem.OpenAppPackageFileAsync("Foods_Packs.csv");
                 using var reader = new StreamReader(fileStream, Encoding.Latin1);
                 var contents = reader.ReadToEnd();
@@ -398,6 +409,65 @@ namespace FirstMauiApp.Data
             return Foods;
         }
 
+        public bool IsLoaded()
+        {
+            return
+                Foods.Count > 0
+                && Recipes.Count > 0
+                && Sizes.Count > 0
+                && Components.Count > 0
+                && ComponentsIngredients.Count > 0
+                && Ingredients.Count > 0
+                && FoodsServingTimes.Count > 0
+                && ServingTimes.Count > 0
+                && FoodsOthers.Count > 0
+                && Others.Count > 0
+                && FoodsPacks.Count > 0
+                && Packs.Count > 0;
+        }
+
+        public string IsLoading()
+        {
+            if (Foods.Count < 150)
+                return "COMIDAS";
+
+            if (Sizes.Count < 3)
+                return "TAMAÑOS";
+
+            if (Ingredients.Count < 64)
+                return "INGREDIENTES";
+
+            if (ServingTimes.Count < 4)
+                return "COMIDAS DEL DÍA";
+
+            if (Others.Count < 2)
+                return "OTROS";
+
+            if (Packs.Count < 16)
+                return "PACKS";
+
+            if (Recipes.Count < 334)
+                return "RECETAS";
+
+            if (Components.Count < 731)
+                return "COMPONENTES";
+
+            if (ComponentsIngredients.Count < 768)
+                return "COMPONENTES Y SUS INGREDIENTES";
+
+            if (FoodsServingTimes.Count < 102)
+                return "COMIDAS Y SUS HORARIOS";
+
+            if (FoodsOthers.Count < 153)
+                return "COMIDAS Y SUS CARACTERÍSTICAS";
+
+            if (FoodsPacks.Count < 203)
+                return "COMIDAS Y SUS PACKS";
+
+            return "TODO CARGADO";
+        }
+
+
         public List<Food> GetItemsFiltered(string search,List<Food> foods)
         {
             string searchNormalized = new String(search.Normalize(NormalizationForm.FormD).Where(c => c<128).ToArray());
@@ -406,6 +476,16 @@ namespace FirstMauiApp.Data
                 foods
                     .Where(f => new String(f.NameES.Normalize(NormalizationForm.FormD).Where(c => c < 128).ToArray()).ToUpper().Contains(searchNormalized.ToUpper()))
                     .OrderBy(f => f.NameES).ToList();
+        }
+
+        /* Mantiene los objetos que están duplicados una cierta cantidad de veces */
+        private List<Food> ObtainFoodsDuplicated(List<Food> foodsFiltered, int timesDuplicated)
+        {
+            return foodsFiltered
+                    .GroupBy(f => f.Id)
+                    .Where(g => g.Count() == timesDuplicated)
+                    .Select(f => f.First())
+                    .ToList();
         }
 
         public List<Food> GetItemsFilteredByMultiple(List<Filter> filters)
