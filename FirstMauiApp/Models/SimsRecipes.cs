@@ -14,6 +14,7 @@ namespace FirstMauiApp.Models
         public string NameEN { get; set; }
         public string NameES { get; set; }
         public int Skill { get; set; }
+        public string Photo { get;set; }
     }
     public class Size
     {

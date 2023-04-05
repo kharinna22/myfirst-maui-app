@@ -37,6 +37,7 @@ namespace FirstMauiApp.Data
 
             Database = new SQLiteAsyncConnection(Constants.DatabasePath, Constants.Flags);
             
+            await Database.DropTableAsync<Food>();
             await Database.CreateTableAsync<Food>();
             await Database.CreateTableAsync<Size>();
             await Database.CreateTableAsync<Ingredient>();
@@ -79,7 +80,8 @@ namespace FirstMauiApp.Data
                             Id = int.Parse(data[0]),
                             NameEN = data[1],
                             NameES = data[2],
-                            Skill = int.Parse(data[3])
+                            Skill = int.Parse(data[3]),
+                            Photo = data[4]
                         }
                     );
                 }
@@ -580,16 +582,6 @@ namespace FirstMauiApp.Data
                     .ToList();
         }
 
-        /* Mantiene los objetos que están duplicados una cierta cantidad de veces */
-        private List<Food> ObtainFoodsDuplicated(List<Food> foodsFiltered,int timesDuplicated)
-        {
-            return foodsFiltered
-                    .GroupBy(f => f.Id)
-                    .Where(g => g.Count() == timesDuplicated)
-                    .Select(f => f.First())
-                    .ToList();
-        }
-
         public FoodDetails GetFoodDetails(int foodId)
         {
             Food food = Foods.Single(f => f.Id == foodId);
@@ -598,6 +590,7 @@ namespace FirstMauiApp.Data
             {
                 Name = food.NameES,
                 Skill = food.Skill,
+                Photo = food.Photo,
                 Recipes = new()
             };
 

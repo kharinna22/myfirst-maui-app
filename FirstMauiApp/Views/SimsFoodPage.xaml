@@ -248,11 +248,8 @@
                         <ScrollView>
                             <VerticalStackLayout 
                                 Spacing="10">
-                                <!-- PRÓXIMAMENTE
-                                <Label 
-                                    Text="FOTO"
-                                    TextColor="#212121"
-                                    FontAttributes="Bold"/>-->
+                                <Image Source="{Binding DetailsPhoto}" HeightRequest="200" Aspect="AspectFit"/>
+                                
                                 <Label
                                     Text="NIVEL DE HABILIDAD REQUERIDO"
                                     TextColor="#212121"

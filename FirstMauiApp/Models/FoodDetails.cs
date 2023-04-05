@@ -8,8 +8,7 @@ namespace FirstMauiApp.Models
 {
     public class FoodDetails
     {
-        // PROXIMAMENTE 
-        // public string Photo { get; set; }
+        public string Photo { get; set; }
         public string Name { get; set; }
         public int Skill { get; set; }
         public List<RecipesDetails> Recipes { get; set; }
