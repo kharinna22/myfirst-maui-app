@@ -35,7 +35,7 @@ namespace FirstMauiApp.Data
                 return;
 
             Database = new SQLiteAsyncConnection(Constants.DatabasePath, Constants.Flags);
-            
+
             await Database.DropTableAsync<Food>();
             await Database.CreateTableAsync<Food>();
             await Database.CreateTableAsync<Size>();
@@ -474,8 +474,8 @@ namespace FirstMauiApp.Data
 
             return
                 foods
-                    .Where(f => new String(f.NameES.Normalize(NormalizationForm.FormD).Where(c => c < 128).ToArray()).ToUpper().Contains(searchNormalized.ToUpper()))
-                    .OrderBy(f => f.NameES).ToList();
+                .Where(f => new String(f.NameES.Normalize(NormalizationForm.FormD).Where(c => c < 128).ToArray()).ToUpper().Contains(searchNormalized.ToUpper()))
+                .OrderBy(f => f.NameES).ToList();
         }
 
         /* Mantiene los objetos que están duplicados una cierta cantidad de veces */
@@ -493,7 +493,7 @@ namespace FirstMauiApp.Data
             List<Food> foodsFiltered = Foods.ToList();
 
             if (filters.FirstOrDefault(f => f.Group == "Tamaño") != null)
-            { 
+            {
                 // Obtiene las comidas y sus tamaños
                 foodsFiltered = foodsFiltered
                         .Join(Recipes,
@@ -690,7 +690,7 @@ namespace FirstMauiApp.Data
                     Ingredients = string.Empty,
                     Price = $"§{recipe.Price}",
                     Size = Sizes.SingleOrDefault(s => s.Id == recipe.SizeId).NameES
-            };
+                };
 
                 List<Component> componentsByRecipe
                             = Recipes

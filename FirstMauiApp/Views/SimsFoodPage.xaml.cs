@@ -89,9 +89,9 @@ public partial class SimsFoodPage : ContentPage
         if (viewModel.VerifyLoading() && viewModel.RandomFoodDetailsCommand.CanExecute(null))
         {
             viewModel.RandomFoodDetailsCommand.Execute(null);
-        DetailsPopup.Show();
+            DetailsPopup.Show();
+        }
     }
-}
 
     private async void LoadingPopup_Opened(object sender, EventArgs e)
     {

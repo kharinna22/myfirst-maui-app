@@ -50,8 +50,8 @@
                 <Button 
                     Grid.Column="1"
                     x:Name="RandomFood"
-                    Text="Aleatorio" 
-                    WidthRequest="86.6"
+                    Text="Al Azar" 
+                    WidthRequest="80"
                     HeightRequest="40"
                     HorizontalOptions="Start"
                     IsEnabled="{Binding IsRandomFoodButtonEnabled}"
@@ -135,7 +135,7 @@
                     </DataTemplate>
                 </popup:SfPopup.ContentTemplate>
             </popup:SfPopup>
-            
+
             <popup:SfPopup 
                 x:Name="FiltrosPopup"
                 HeaderTitle="Filtros"
@@ -173,7 +173,7 @@
                                                 StrokeThickness="2">
 
                                                 <Grid
-                                                    ColumnDefinitions="*,*"
+                                                    ColumnDefinitions="1.5*,*"
                                                     BackgroundColor="LightGray">
 
                                                     <Label

@@ -71,8 +71,8 @@ internal class SimsFoodViewModel : ObservableObject
     {
         if (Filters.Count < 89)
         {
-        Filters = App.Database.GetFilters();
-        CopyFilters();
+            Filters = App.Database.GetFilters();
+            CopyFilters();
 
             OnPropertyChanged(nameof(Filters));
         }
@@ -166,6 +166,6 @@ internal class SimsFoodViewModel : ObservableObject
         return App.Database.IsLoaded();
     }
 
-    
+
 }
 
