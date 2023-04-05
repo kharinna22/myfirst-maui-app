@@ -376,8 +376,8 @@ namespace FirstMauiApp.Data
             foreach (Size size in Sizes)
                 filters.Add(new Filter() { Group = "Tamaño", Id = size.Id, NameEN = size.NameEN, NameES = size.NameES });
 
-            //foreach (Ingredient ingredient in Ingredients)
-            //    filters.Add(new Filter() { Group = "Ingredientes", Id = ingredient.Id, NameEN = ingredient.NameEN, NameES = ingredient.NameES });
+            foreach (Ingredient ingredient in Ingredients)
+                filters.Add(new Filter() { Group = "Ingredientes", Id = ingredient.Id, NameEN = ingredient.NameEN, NameES = ingredient.NameES });
 
             foreach (ServingTime servingTime in ServingTimes)
                 filters.Add(new Filter() { Group = "Comidas del Día", Id = servingTime.Id, NameEN = servingTime.NameEN, NameES = servingTime.NameES });
@@ -427,7 +427,108 @@ namespace FirstMauiApp.Data
                 foodsFiltered = ObtainFoodsDuplicated(foodsFiltered, filters.Where(s => s.Group == "Tamaño").Count());
             }
 
-            // Filtro por ingrediente, debe mostrar las comidas que se puedan hacer con esos ingredientes
+            if (filters.FirstOrDefault(f => f.Group == "Ingredientes") != null)
+            {
+                // Devuelve las comidas que incluye los ingredientes suficientes para cocinar
+
+                List<Food> foodsFilteredByCookable = new();
+
+                foreach(Food food in foodsFiltered) {
+
+                    List<Recipe> recipesFilteredBySize = Recipes
+                                                        .Where(r => r.FoodId == food.Id)
+                                                        .ToList();
+
+                    // Se filtran las recetas por tamaño si es que hay algún filtro seleccionado
+                    if (filters.FirstOrDefault(f => f.Group == "Tamaño") != null)
+                    {
+                        recipesFilteredBySize = recipesFilteredBySize
+                                                .Join(filters.Where(s => s.Group == "Tamaño").ToList(),
+                                                    r => r.SizeId,
+                                                    f => f.Id,
+                                                    (r, f) => r)
+                                                .ToList();
+                    }
+
+                    bool includeFood = false;
+                    foreach (Recipe recipe in recipesFilteredBySize)
+                    {
+
+                        List<Component> componentsByRecipe
+                            = recipesFilteredBySize
+                                .Where(r => r.Id == recipe.Id)
+                                .Join(Components,
+                                    r => r.Id,
+                                    c => c.RecipeId,
+                                    (r, c) => c)
+                                .ToList();
+
+                        bool canCook = true;
+                        foreach (Component component in componentsByRecipe)
+                        {
+                            List<ComponentIngredient> componentsIngredientsByRecipe =
+                                componentsByRecipe
+                                .Where(c => c.Id == component.Id)
+                                .Join(ComponentsIngredients,
+                                    c => c.Id,
+                                    ci => ci.ComponentId,
+                                    (c, ci) => ci)
+                                .ToList();
+
+                            bool hasIngredient = false;
+                            foreach (ComponentIngredient ci in componentsIngredientsByRecipe)
+                            {
+                                if (filters.FirstOrDefault(f => f.Group == "Ingredientes" && f.Id == ci.IngredientId) != null)
+                                {
+                                    // REGLA: Debe tener al menos 1 ingrediente para que se cumpla el componente 
+                                    // EJEMPLO: 1 cebolla o 1 manzana (si tiene una cebolla, ya se cumple)
+                                    hasIngredient = true; 
+                                    break;
+                                }
+                            }
+
+                            if (!hasIngredient) // REGLA: Si al menos un componente NO tiene ingrediente, NO se puede cocinar
+                            {
+                                canCook = false;
+                                break;
+                            }
+                        }
+
+                        if (canCook) // REGLA: Si al menos una de las recetas se puede cocinar, entonces se debe mostrar
+                        {
+                            includeFood = true;
+                            break;
+                        }
+                    }
+
+                    if (includeFood)
+                        foodsFilteredByCookable.Add(food);
+                }
+
+                foodsFiltered = foodsFilteredByCookable.ToList();
+
+                // Devuelve las comidas que incluye alguno de los ingredientes
+                //foodsFiltered = foodsFiltered
+                //    .Join(Recipes,
+                //        f => f.Id,
+                //        r => r.FoodId,
+                //        (f,r) => new { Food = f, Recipe = r})
+                //    .Join(Components,
+                //        fr => fr.Recipe.Id,
+                //        c => c.RecipeId,
+                //        (fr,c) => new { Food = fr.Food, Component  = c})
+                //    .Join(ComponentsIngredients,
+                //        frc => frc.Component.Id,
+                //        ci => ci.ComponentId,
+                //        (frc,ci) => new { Food = frc.Food, ComponentIngredient = ci})
+                //    .Join(filters.Where(s => s.Group == "Ingredientes").ToList(),
+                //        frcci => frcci.ComponentIngredient.IngredientId,
+                //        i => i.Id,
+                //        (frcci,i) => frcci.Food)
+                //    .ToList();
+
+                
+            }
 
             if (filters.FirstOrDefault(f => f.Group == "Comidas del Día") != null)
             {
