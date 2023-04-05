@@ -260,10 +260,6 @@
                                 <Label
                                     Text="{Binding DetailsSkill}"
                                     TextColor="#212121"/>
-                                <!--<Label
-                                    Text="TAMAÑOS CON PRECIOS E INGREDIENTES"
-                                    TextColor="#212121"
-                                    FontAttributes="Bold"/>-->
                                 <Label
                                     Text="COMIDAS DEL DÍA"
                                     TextColor="#212121"
@@ -332,6 +328,43 @@
                                         </listView:SfListView.ItemTemplate>
                                     </listView:SfListView>
                                 </Grid>
+
+                                <Grid>
+                                    <syncfusion:SfDataGrid
+                                        ItemsSource="{Binding DetailsRecipes}"
+                                        AutoGenerateColumnsMode="None"
+                                        ColumnWidthMode="FitByHeader"
+                                        SortingMode="None"
+                                        SelectionMode="None"
+                                        HeightRequest="150"
+                                        CanMaintainScrollPosition="False"
+                                        QueryRowHeight="dataGrid_QueryRowHeight">
+                                        <syncfusion:SfDataGrid.DefaultStyle>
+                                            <syncfusion:DataGridStyle 
+                                                HeaderRowBackground="#f8f9fa" 
+                                                HeaderRowTextColor="#000" 
+                                                RowBackground="#f8f9fa" 
+                                                RowTextColor="#000"
+                                                HeaderRowFontAttributes="Bold"
+                                                GridLineColor="#dfe0e1"
+                                                GridLineStrokeThickness="2"
+                                                />
+                                        </syncfusion:SfDataGrid.DefaultStyle>
+                                        <syncfusion:SfDataGrid.Columns>
+                                            <syncfusion:DataGridTextColumn 
+                                                MappingName="Size" 
+                                                HeaderText="Tamaño"/>
+                                            <syncfusion:DataGridTextColumn 
+                                                MappingName="Price" 
+                                                HeaderText="Precio"/>
+                                            <syncfusion:DataGridTextColumn 
+                                                MappingName="Ingredients" 
+                                                HeaderText="Ingredientes"/>
+                                        </syncfusion:SfDataGrid.Columns>
+                                    </syncfusion:SfDataGrid>
+
+                                </Grid>
+
                             </VerticalStackLayout>
                         </ScrollView>
                     </DataTemplate>

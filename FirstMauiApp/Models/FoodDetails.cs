@@ -21,12 +21,8 @@ namespace FirstMauiApp.Models
     public class RecipesDetails
     {
         public string Size { get; set; }
-        public int Price { get; set; }
-        public List<ComponentsDetails> Components { get; set; }
+        public string Price { get; set; }
+        public string Ingredients { get; set; }
     }
 
-    public class ComponentsDetails
-    {
-        public List<Ingredient> Ingredients { get; set; }
-    }
 }

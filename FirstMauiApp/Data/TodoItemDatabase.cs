@@ -597,8 +597,75 @@ namespace FirstMauiApp.Data
             FoodDetails foodDetails = new FoodDetails()
             {
                 Name = food.NameES,
-                Skill = food.Skill
+                Skill = food.Skill,
+                Recipes = new()
             };
+
+            #region Carga Tabla de Recetas
+            List<Recipe> recipes = Foods
+                .Where(f => f.Id == foodId)
+                .Join(Recipes,
+                    f => f.Id,
+                    r => r.FoodId,
+                    (f,r) => r)
+                .ToList();
+
+            foreach(Recipe recipe in recipes)
+            {
+                RecipesDetails recipesDetails = new RecipesDetails()
+                {
+                    Ingredients = string.Empty,
+                    Price = $"§{recipe.Price}",
+                    Size = Sizes.SingleOrDefault(s => s.Id == recipe.SizeId).NameES
+            };
+
+                List<Component> componentsByRecipe
+                            = Recipes
+                            .Where(r => r.Id == recipe.Id)
+                            .Join(Components,
+                                r => r.Id,
+                                c => c.RecipeId,
+                                (r, c) => c)
+                            .ToList();
+                int componentCounter = componentsByRecipe.Count;
+                foreach (Component component in componentsByRecipe)
+                {
+                    List<ComponentIngredient> componentsIngredientsByRecipe =
+                                componentsByRecipe
+                                .Where(c => c.Id == component.Id)
+                                .Join(ComponentsIngredients,
+                                    c => c.Id,
+                                    ci => ci.ComponentId,
+                                    (c, ci) => ci)
+                                .ToList();
+
+                    int componentIngredientCounter = componentsIngredientsByRecipe.Count;
+                    foreach (ComponentIngredient ci in componentsIngredientsByRecipe)
+                    {
+                        string nameIngredient = Ingredients.SingleOrDefault(i => i.Id == ci.IngredientId).NameES;
+
+                        if (componentIngredientCounter == componentsIngredientsByRecipe.Count)
+                            recipesDetails.Ingredients += $"{ci.Quantity} ";
+
+                        recipesDetails.Ingredients += $"{nameIngredient}";
+
+                        if (componentIngredientCounter - 1 > 0)
+                            recipesDetails.Ingredients += "/";
+
+                        componentIngredientCounter--;
+                    }
+
+                    if(componentCounter - 1 > 0)
+                        recipesDetails.Ingredients += "\n";
+
+                    componentCounter--;
+                }
+                foodDetails.Recipes.Add(recipesDetails);
+            }
+
+            #endregion
+
+
 
             foodDetails.ServingTimes = Foods
                 .Join(FoodsServingTimes,
