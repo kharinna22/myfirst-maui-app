@@ -13,6 +13,10 @@ namespace FirstMauiApp.Data
     public class RecipesDatabase
     {
         private SQLiteAsyncConnection Database;
+        private const string VERSION = "1.0";
+        private const string fileName = "version.txt";
+        private static string mainDir = FileSystem.Current.AppDataDirectory;
+        private string filePath = Path.Combine(mainDir, fileName);
         /* Listas estáticas ya que se espera sólo lectura */
         private List<Food> Foods = new ();
         private List<Size> Sizes = new();
@@ -36,7 +40,8 @@ namespace FirstMauiApp.Data
 
             Database = new SQLiteAsyncConnection(Constants.DatabasePath, Constants.Flags);
 
-            await Database.DropTableAsync<Food>();
+            await CheckVersion();
+
             await Database.CreateTableAsync<Food>();
             await Database.CreateTableAsync<Size>();
             await Database.CreateTableAsync<Ingredient>();
@@ -54,10 +59,42 @@ namespace FirstMauiApp.Data
             await LoadDatabaseAsync();
         }
 
+        private async Task CheckVersion()
+        {
+            if (File.Exists(filePath))
+            {
+                using Stream fileStream = File.OpenRead(filePath);
+                using StreamReader reader = new StreamReader(fileStream);
+
+                string localVersion = reader.ReadToEnd();
+                if (localVersion == VERSION)
+                    return;
+            }
+
+            using FileStream outputStream = File.OpenWrite(filePath);
+            using StreamWriter writer = new StreamWriter(outputStream);
+
+            writer.Write($"{VERSION}");
+
+            await Database.DropTableAsync<Food>();
+            await Database.DropTableAsync<Size>();
+            await Database.DropTableAsync<Ingredient>();
+            await Database.DropTableAsync<ServingTime>();
+            await Database.DropTableAsync<Other>();
+            await Database.DropTableAsync<Pack>();
+
+            await Database.DropTableAsync<Recipe>();
+            await Database.DropTableAsync<Component>();
+            await Database.DropTableAsync<ComponentIngredient>();
+            await Database.DropTableAsync<FoodServingTime>();
+            await Database.DropTableAsync<FoodOther>();
+            await Database.DropTableAsync<FoodPack>();
+        }
+
         private async Task LoadDatabaseAsync()
         {
             // CARGAR FOODS
-            if(await Database.Table<Food>().CountAsync() < 150) 
+            if (await Database.Table<Food>().CountAsync() < 150) 
             {
                 await Database.DeleteAllAsync<Food>();
                 using var fileStream = await FileSystem.OpenAppPackageFileAsync("Foods.csv");

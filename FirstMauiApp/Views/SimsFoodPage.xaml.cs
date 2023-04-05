@@ -98,14 +98,7 @@ public partial class SimsFoodPage : ContentPage
         await Wait(2500);
 
         SimsFoodViewModel viewModel = (SimsFoodViewModel)this.BindingContext;
-        int counter = 0;
         while (true) {
-
-            if(counter > 6)
-            {
-                await App.Database.Init();
-                counter = 0;
-            }
 
             if (viewModel.VerifyLoading())
             {
@@ -118,7 +111,6 @@ public partial class SimsFoodPage : ContentPage
             await toast.Show(cancellationTokenSource.Token);
 
             await Wait(10000);
-            counter++;
         }
 
     }
