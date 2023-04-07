@@ -13,7 +13,7 @@ namespace FirstMauiApp.Data
     public class RecipesDatabase
     {
         private SQLiteAsyncConnection Database;
-        private const string VERSION = "1.0";
+        private const string VERSION = "1.1";
         private const string fileName = "version.txt";
         private static string mainDir = FileSystem.Current.AppDataDirectory;
         private string filePath = Path.Combine(mainDir, fileName);
