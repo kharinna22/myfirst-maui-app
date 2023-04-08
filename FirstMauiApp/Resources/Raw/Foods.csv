@@ -1,44 +1,44 @@
 Id,NameEn,NameES,Skill,Photo
-1,Pan De Muerto,Pan de Muerto,1,pancakes.png
-2,Hamburger Cake,Hamburger Cake,1,pancakes.png
-3,Eggs and Toast,Huevos con Tostadas,1,pancakes.png
-4,Golden Eggs and Toast,Huevos Dorados con Tostadas,1,pancakes.png
-5,Obsidian Eggs and Toast,Huevos de Obsidiana con Tostadas ,1,pancakes.png
+1,Pan De Muerto,Pan de Muerto,1,pan_de_muerto.png
+2,Hamburger Cake,Tarta de Hamburguesa,1,pancakes.png
+3,Eggs and Toast,Huevos con Tostadas,1,eggs_and_toast.png
+4,Golden Eggs and Toast,Huevos Dorados con Tostadas,1,eggs_and_toast.png
+5,Obsidian Eggs and Toast,Huevos de Obsidiana con Tostadas ,1,eggs_and_toast.png
 6,Franks and Beans,Alubias con Salchichas,1,franks_and_beans.png
 7,Garden Salad,Ensalada de la Huerta,1,garden_salad.png
 8,Grilled Cheese,Sándwich de Queso a la Parrilla,1,pancakes.png
 9,White Cake,Tarta Blanca,1,pancakes.png
 10,Chocolate Cake,Tarta de Chocolate,1,pancakes.png
-11,Mac and Cheese,Macarrones con Queso,1,pancakes.png
+11,Mac and Cheese,Macarrones con Queso,1,mac_and_cheese.png
 12,Sugar Free Carob Coconut Cake,Tarta de Algarroba y Coco Sin Azúcar,1,pancakes.png
 13,Superfood Salad,Ensalada Saludable,1,superfood_salad.png
-14,Fruit Salad,Macedonia,1,pancakes.png
+14,Fruit Salad,Macedonia,1,fruit_salad.png
 15,Plasma Fruit Salad,Ensalada de Fruta de Plasma,1,plasma_fruit_salad.png
 16,Remedy of the Ancients,Remedio de los Antiguos,1,pancakes.png
 17,Honey Cake,Pastel de Miel,1,pancakes.png
 18,Scout Cookies,Scout Cookies,1,pancakes.png
-19,Popcorn Crickets,Palomitas de Grillos,1,pancakes.png
-20,Onigiri,Onigiri,1,pancakes.png
+19,Popcorn Crickets,Palomitas de Grillos,1,popcorn_crickets.png
+20,Onigiri,Onigiri,1,onigiri.png
 21,Vegetable Dumplings,Dumplings vegetales,1,vegetable_dumplings.png
-22,Milk Bread,Pan de Leche,1,pancakes.png
-23,Lactose Free Milk Bread,Pan de Leche Sin Lactosa,1,pancakes.png
+22,Milk Bread,Pan de Leche,1,milk_bread.png
+23,Lactose Free Milk Bread,Pan de Leche Sin Lactosa,1,milk_bread.png
 24,Yorkshire Pudding,Budín de Yorkshire,1,yorkshire_pudding.png
 25,Lactose Free Yorkshire Pudding,Budín de Yorkshire Sin Lactosa,1,yorkshire_pudding.png
 26,Cheese,Queso,1,pancakes.png
-27,Pão de Queijo,Pão de Queijo,1,pancakes.png
+27,Pão de Queijo,Pão de Queijo,1,pao_de_queijo.png
 28,Rice Cake,Pastel de Arroz,1,pancakes.png
 29,Japchae,Japchae,1,pancakes.png
-30,Scrambled Eggs With Bacon,Huevos Revueltos con Beicon,2,pancakes.png
-31,Obsidian Scrambled Eggs and Bacon,Huevos de Obsidiana Revueltos con Beicon,2,pancakes.png
-32,Golden Scrambled Eggs and Bacon,Huevos Dorados Revueltos con Beicon,2,pancakes.png
-33,Chips and Salsa,Nachos con Salsa,2,pancakes.png
+30,Scrambled Eggs With Bacon,Huevos Revueltos con Beicon,2,scrambled_eggs_with_bacon.png
+31,Obsidian Scrambled Eggs and Bacon,Huevos de Obsidiana Revueltos con Beicon,2,scrambled_eggs_with_bacon.png
+32,Golden Scrambled Eggs and Bacon,Huevos Dorados Revueltos con Beicon,2,scrambled_eggs_with_bacon.png
+33,Chips and Salsa,Nachos con Salsa,2,chips_and_salsa.png
 34,BLT,Sándwich BLT,2,blt.png
 35,Faux BLT,BLT Vegetal,2,blt.png
 36,Fish Tacos,Tacos de Pescado,2,pancakes.png
 37,Tofu Tacos,Tacos de Tofu,2,pancakes.png
 38,High Energy Protein Plate,Plato Rico en Proteínas,2,high_energy_protein_plate.png
 39,Faux Meat Protein Plate,Plato Proteico Con Carne Falsa,2,high_energy_protein_plate.png
-40,Spooky Cookies,Galletas del Terror,2,pancakes.png
+40,Spooky Cookies,Galletas del Terror,2,spooky_cookies.png
 41,Seaweed Ramen,Ramen de Algas,2,pancakes.png
 42,Miso Ramen,Ramen de Miso,2,pancakes.png
 43,Egg Ramen,Ramen de Huevo,2,pancakes.png
@@ -52,23 +52,23 @@ Id,NameEn,NameES,Skill,Photo
 51,Brigadeiro,Brigadeiro,2,brigadeiro.png
 52,Tteokguk,Tteokguk,2,pancakes.png
 53,Pancakes,Tortitas,3,pancakes.png
-54,Silly Gummy Bear Pancakes,Silly Gummy Bear Pancakes,3,pancakes.png
-55,Flirty Heart Cookies,Flirty Heart Cookies,3,pancakes.png
+54,Silly Gummy Bear Pancakes,Tortitas Tontitas de Ositos de Gominola,3,pancakes.png
+55,Flirty Heart Cookies,Galletas de Corazón Coquetas,3,flirty_heart_cookies.png
 56,Taco Casserole,Lasaña de Tacos,3,taco_casserole.png
 57,Faux Meat Casserole,Carne Falsa a la Cazuela,3,taco_casserole.png
-58,Chocolate Chip Cookies,Galletas con Trocitos de Chocolate,3,pancakes.png
+58,Chocolate Chip Cookies,Galletas con Trocitos de Chocolate,3,chocolate_chip_cookies.png
 59,Pan Fried Tilapia,Tilapia Empanada,3,pancakes.png
 60,Fried Fish,Pescado Frito,3,pancakes.png
-61,Cheese Eyeballs,Ojos de Queso,3,pancakes.png
+61,Cheese Eyeballs,Ojos de Queso,3,cheese_eyeballs.png
 62,Coconut Cake,Tarta de Coco,3,pancakes.png
 63,Cricket Meal,Comida de Grillos,3,cricket_meal.png
 64,Faux Meat Bowl,Cuenco de Carne Falsa,3,poke_bowl.png
 65,Poke Bowl,Poké,3,poke_bowl.png
 66,Aubergine Parmesan,Berenjena a la Parmesana,3,aubergine_parmesan.png
 67,Blueberry Pie,Tarta de Arándano,3,pancakes.png
-68,Zaatar Manakeesh,Manakeesh con Za'atar,3,pancakes.png
-69,Hallaca,Hallaca,3,pancakes.png
-70,Galbi-jjim,Galbi-jjim,3,pancakes.png
+68,Zaatar Manakeesh,Manakeesh con Za'atar,3,zaatar_manakeesh.png
+69,Hallaca,Hallaca,3,hallaca.png
+70,Galbi-jjim,Galbi-jjim,3,galbijjim.png
 71,Spaghetti,Espaguetis,4,spaghetti.png
 72,Angry Flaming Spaghetti,Espaguetis Picantes Furiosos,4,spaghetti.png
 73,Black and White Cookies,Galletas Blanquinegras,4,black_and_white_cookies.png
@@ -85,13 +85,13 @@ Id,NameEn,NameES,Skill,Photo
 84,Spicy Mushroom Soup,Sopa de Setas Picantes,4,pancakes.png
 85,Nightly Mushroom Soup,Sopa de Setas Nocturnas,4,pancakes.png
 86,Minced Pork Noodles,Fideos con Picadillo de Cerdo,4,pancakes.png
-87,Knafeh,Knafeh,4,pancakes.png
+87,Knafeh,Knafeh,4,knafeh.png
 88,Fish and Chips,Pescado con Patatas Fritas,5,pancakes.png
 89,Faux Meat and Chips,Carne Falsa con Patatas Fritas,5,pancakes.png
 90,Breakfast Scramble,Revuelto de Desayuno,5,pancakes.png
 91,French Toast,Tostada,5,pancakes.png
 92,(Sim's Name) Signature Cake,(Sim's Name) Signature Cake,5,pancakes.png
-93,Minestrone,Minestrone,5,pancakes.png
+93,Minestrone,Minestrone,5,minestrone.png
 94,Fish Yakisoba,Yakisoba de Pescado,5,pancakes.png
 95,Beef Yakisoba,Yakisoba de Ternera,5,pancakes.png
 96,Veggie Yakisoba,Yakisoba Vegetal,5,pancakes.png
@@ -107,10 +107,10 @@ Id,NameEn,NameES,Skill,Photo
 106,Chili,Chili,6,chili.png
 107,Vegetable Chili,Chili de Verduras,6,chili.png
 108,Clam Chowder,Sopa de Almejas,6,pancakes.png
-109,Palak Paneer,Palak Paneer,6,pancakes.png
+109,Palak Paneer,Palak Paneer,6,palak_paneer.png
 110,Butter Chicken,Pollo con Mantequilla,6,pancakes.png
 111,Faux Meat Butter Chicken,Pollo Falso con Mantequilla,6,pancakes.png
-112,Baked Chocolate Mousse,Mousse de Chocolate al Horno,6,pancakes.png
+112,Baked Chocolate Mousse,Mousse de Chocolate al Horno,6,baked_chocolate_mousse.png
 113,Blueberry Jam Crumpets,Bollos con Mermelada de Arándanos,6,blueberry_jam_crumpets.png
 114,Strawberry Jam Crumpets,Bollos con Mermelada de Fresa,6,strawberry_jam_crumpets.png
 115,Buttered Jam Crumpets,Bollos con Mantequilla,6,buttered_jam_crumpets.png
@@ -119,7 +119,7 @@ Id,NameEn,NameES,Skill,Photo
 118,Cottage Pie,Pastel de Picadillo,6,pancakes.png
 119,Faux Cottage Pie,Pastel de Picadillo con Carne Falsa,6,pancakes.png
 120,Pumpking Stew,Estofado de Calabaza,6,pumpking_stew.png
-121,Blackened Bass,Lubina Marinada,7,pancakes.png
+121,Blackened Bass,Lubina Marinada,7,blackened_bass.png
 122,Omelet,Tortilla Francesa,7,pancakes.png
 123,Obsidian Omelet,Tortilla Francesa de Obsidiana,7,pancakes.png
 124,Golden Omelet,Tortilla Francesa Dorada,7,pancakes.png
@@ -132,7 +132,7 @@ Id,NameEn,NameES,Skill,Photo
 131,Apple Pie,Tarta de Manzana,8,pancakes.png
 132,Gumbo,Quingombó,8,pancakes.png
 133,Cioppino,Sopa de Marisco,9,pancakes.png
-134,Chicken Stir Fry,Fideos con Pollo y Verduras,9,pancakes.png
+134,Chicken Stir Fry,Fideos con Pollo y Verduras,9,chicken_stir_fry.png
 135,Tofu Stir Fry,Tofu Frito,9,pancakes.png
 136,Walleye Surprise,Sopresa de Lucioperca,9,pancakes.png
 137,Bangers and Mash,Salchichas con Puré,9,bangers_and_mash.png
