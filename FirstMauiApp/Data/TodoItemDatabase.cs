@@ -504,7 +504,6 @@ namespace FirstMauiApp.Data
             return "TODO CARGADO";
         }
 
-
         public List<Food> GetItemsFiltered(string search,List<Food> foods)
         {
             string searchNormalized = new String(search.Normalize(NormalizationForm.FormD).Where(c => c<128).ToArray());
@@ -543,7 +542,11 @@ namespace FirstMauiApp.Data
                             (fr, filter) => fr.Food)
                         .ToList();
 
-                foodsFiltered = ObtainFoodsDuplicated(foodsFiltered, filters.Where(s => s.Group == "Tamaño").Count());
+                //foodsFiltered = ObtainFoodsDuplicated(foodsFiltered, filters.Where(s => s.Group == "Tamaño").Count());
+                foodsFiltered = foodsFiltered
+                    .GroupBy(f => f.Id)
+                    .Select(f => f.First())
+                    .ToList();
             }
 
             if (filters.FirstOrDefault(f => f.Group == "Ingredientes") != null)
